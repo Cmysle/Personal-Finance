@@ -120,7 +120,7 @@ const Home = () => {
               <img
                 src={monthly_budget}
                 alt="monthly_budget"
-                className="self-center h-4/5 p-2 rounded-3xl "
+                className="self-center h-40 p-2 rounded-3xl "
               />
             </div>
           </div>
@@ -145,6 +145,7 @@ const Home = () => {
           <div className="w-full h-full"></div>
           {/* Row 2 Box 3 */}
           <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-cols-[1fr_1fr_1fr]">
+            {/* Left Side */}
             <div className="w-full h-full">
               <div className="w-full h-4/5 flex justify-center">
                 <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
@@ -159,12 +160,13 @@ const Home = () => {
                 </p>
               </div>
             </div>
+            {/* Middle Side */}
             <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
               <div className="w-full h-4/5 flex justify-center">
                 <img
                   src={investment_portfolio}
                   alt="investment_portfolio"
-                  className="self-center h-40 rounded-xl"
+                  className="self-center h-28 rounded-xl"
                 />
               </div>
               <div className="w-full h-1/5 flex justify-center">
@@ -173,6 +175,7 @@ const Home = () => {
                 </p>
               </div>
             </div>
+            {/* Right Side */}
             <div className="w-full h-full">
               <div className="w-full h-4/5 flex justify-center">
                 <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
