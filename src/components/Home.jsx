@@ -1,8 +1,8 @@
 import bb_logo_transparent from "../assets/bb_logo_transparent.png";
 import acct_overview from "../assets/acct_overview.png";
 import acct_overview_2 from "../assets/acct_overview_2.png";
-import saving_goals from "../assets/saving_goals.png";
-import saving_goals_2 from "../assets/saving_goals_2.png";
+import monthly_budget from "../assets/monthly_budget.png";
+import investment_portfolio from "../assets/investment_portfolio.png";
 
 const Home = () => {
   return (
@@ -89,7 +89,8 @@ const Home = () => {
               </div>
               <div className="bg-black w-5/6 h-5/6 m-auto flex justify-center">
                 <p className="self-center text-center text-white font-bold text-lg m-4">
-                  Placeholder for future most significant expenses of the current month chart
+                  Placeholder for future most significant expenses of the
+                  current month chart
                 </p>
               </div>
             </div>
@@ -98,13 +99,95 @@ const Home = () => {
         <div className="w-full h-full"></div>
         <div className="w-full h-full grid grid-cols-[2fr_32px_2fr_32px_4fr]">
           {/* Row 2 Box 1 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1]"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-cols-[1fr_1fr]">
+            {/* Left Side */}
+            <div className="w-full h-full">
+              <div className="w-full h-4/5 flex justify-center">
+                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                  <p className="self-center text-center text-white font-bold text-lg m-4">
+                    Placeholder for future monthly budget chart
+                  </p>
+                </div>
+              </div>
+              <div className="w-full h-1/5 flex justify-center">
+                <p className="self-center text-center text-white font-bold text-lg">
+                  Monthly Budget
+                </p>
+              </div>
+            </div>
+            {/* Right Side */}
+            <div className="w-full h-full flex justify-center">
+              <img
+                src={monthly_budget}
+                alt="monthly_budget"
+                className="self-center h-4/5 p-2 rounded-3xl "
+              />
+            </div>
+          </div>
           <div className="w-full h-full"></div>
           {/* Row 2 Box 2 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1]"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1]">
+            <div className="w-full h-full">
+              <div className="w-full h-4/5 flex justify-center">
+                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                  <p className="self-center text-center text-white font-bold text-lg m-4">
+                    Placeholder for future Important Notifications chart
+                  </p>
+                </div>
+              </div>
+              <div className="w-full h-1/5 flex justify-center">
+                <p className="self-center text-center text-white font-bold text-lg">
+                  Important Notifications
+                </p>
+              </div>
+            </div>
+          </div>
           <div className="w-full h-full"></div>
           {/* Row 2 Box 3 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1]"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-cols-[1fr_1fr_1fr]">
+            <div className="w-full h-full">
+              <div className="w-full h-4/5 flex justify-center">
+                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                  <p className="self-center text-center text-white font-bold text-lg m-4">
+                    Placeholder for future total value chart
+                  </p>
+                </div>
+              </div>
+              <div className="w-full h-1/5 flex justify-center">
+                <p className="self-center text-center text-white font-bold text-lg">
+                  Total Value
+                </p>
+              </div>
+            </div>
+            <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
+              <div className="w-full h-4/5 flex justify-center">
+                <img
+                  src={investment_portfolio}
+                  alt="investment_portfolio"
+                  className="self-center h-40 rounded-xl"
+                />
+              </div>
+              <div className="w-full h-1/5 flex justify-center">
+                <p className="self-center text-center text-white font-bold text-lg">
+                  Investment Portfolio
+                </p>
+              </div>
+            </div>
+            <div className="w-full h-full">
+              <div className="w-full h-4/5 flex justify-center">
+                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                  <p className="self-center text-center text-white font-bold text-lg m-4">
+                    Placeholder for future monthly budget chart
+                  </p>
+                </div>
+              </div>
+              <div className="w-full h-1/5 flex justify-center">
+                <p className="self-center text-center text-white font-bold text-lg">
+                  Highest Value(s)
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="w-full h-full"></div>
         <div className="w-full h-full grid grid-cols-[2fr_32px_4fr_32px_1fr]">
