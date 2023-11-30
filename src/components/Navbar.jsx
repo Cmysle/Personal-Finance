@@ -4,9 +4,11 @@ const Navbar = () => {
   return (
     <main className="absolute w-screen h-32">
       <section className="bg-[#d0e5ee] w-screen h-16 grid grid-cols-2">
-        <Link to="/" className="my-auto ml-16">
-          <h1 className="text-3xl font-bold">The Budget Buddy</h1>
-        </Link>
+        <div className="w-full h-full ml-16 flex">
+          <Link to="/" className="self-center">
+            <h1 className="text-3xl font-bold">The Budget Buddy</h1>
+          </Link>
+        </div>
         <div className="flex flex-row w-full h-full">
           <div className="w-1/3"></div>
           <Link to="/about-us" className="flex-auto my-auto">
