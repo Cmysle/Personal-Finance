@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.height-screen-minus-192 {
+    height: calc(100vh - 192px);
+}
+
+.width-screen-minus-128 {
+    width: calc(100vw - 128px);
+}
