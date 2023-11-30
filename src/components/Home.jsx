@@ -3,6 +3,14 @@ import acct_overview from "../assets/acct_overview.png";
 import acct_overview_2 from "../assets/acct_overview_2.png";
 import monthly_budget from "../assets/monthly_budget.png";
 import investment_portfolio from "../assets/investment_portfolio.png";
+import contact_us from "../assets/contact_us.png";
+import commonly_asked_questions from "../assets/commonly_asked_questions.png";
+import mastering_money from "../assets/mastering_money.png";
+import navigating_debt from "../assets/navigating_debt.png";
+import retirement_readiness from "../assets/retirement_readiness.png";
+import investing_101 from "../assets/investing_101.png";
+import financial_education from "../assets/financial_education.png";
+import customers_served from "../assets/customers_served.png";
 
 const Home = () => {
   return (
@@ -99,7 +107,7 @@ const Home = () => {
         <div className="w-full h-full"></div>
         <div className="w-full h-full grid grid-cols-[2fr_32px_2fr_32px_4fr]">
           {/* Row 2 Box 1 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-cols-[1fr_1fr]">
+          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-cols-[1.5fr_1fr]">
             {/* Left Side */}
             <div className="w-full h-full">
               <div className="w-full h-4/5 flex justify-center">
@@ -162,15 +170,15 @@ const Home = () => {
             </div>
             {/* Middle Side */}
             <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
-              <div className="w-full h-4/5 flex justify-center">
+              <div className="w-full h-full flex justify-center">
                 <img
                   src={investment_portfolio}
                   alt="investment_portfolio"
                   className="self-center h-28 rounded-xl"
                 />
               </div>
-              <div className="w-full h-1/5 flex justify-center">
-                <p className="self-center text-center text-white font-bold text-lg">
+              <div className="w-full h-full flex justify-center">
+                <p className="self-center text-center text-white font-bold text-2xl">
                   Investment Portfolio
                 </p>
               </div>
@@ -195,24 +203,128 @@ const Home = () => {
         <div className="w-full h-full"></div>
         <div className="w-full h-full grid grid-cols-[2fr_32px_4fr_32px_1fr]">
           {/* Row 3 Box 1 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-rows-[4fr_1fr]">
-            <div className="w-full h-full"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-rows-[4fr_1.5fr]">
+            <div className="w-full h-full grid grid-cols-[1fr_1fr] ">
+              <div className="w-full h-full flex justify-center">
+                <img
+                  src={commonly_asked_questions}
+                  alt="commonly_asked_questions"
+                  className="self-center h-36 rounded-xl"
+                />
+              </div>
+              <div className="w-full h-full border-l-2 border-l-[#9bc8db] border-dashed flex justify-center">
+                <img
+                  src={contact_us}
+                  alt="contact_us"
+                  className="self-center h-36 rounded-xl"
+                />
+              </div>
+            </div>
             {/* White Box */}
-            <div className="bg-white w-full h-full rounded-b-3xl"></div>
+            <div className="bg-white w-full h-full rounded-b-3xl grid grid-cols-[1fr_1fr]">
+              <div className="w-full h-full flex justify-center">
+                <p className="self-center text-center font-bold text-xl">
+                  Commonly Asked <br /> Questions
+                </p>
+              </div>
+              <div className="w-full h-full flex justify-center border-l-2 border-l-slate-400 border-dashed">
+                <p className="self-center text-center font-bold text-xl">
+                  Contact Us
+                </p>
+              </div>
+            </div>
           </div>
           <div className="w-full h-full"></div>
           {/* Row 3 Box 2 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-rows-[4fr_1fr]">
-            <div className="w-full h-full"></div>
-            {/* White Box */}
-            <div className="bg-white w-full h-full rounded-b-3xl"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-y-2 border-[#5685a1] grid grid-cols-[4fr_1fr]">
+            {/* Left Side */}
+            <div className="w-full h-full grid grid-rows-[4fr_1.5fr]">
+              <div className="w-full h-full grid grid-cols-[1fr_1fr_1fr_1fr]">
+                <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
+                  <div className="w-full h-full flex justify-center">
+                    <img
+                      src={retirement_readiness}
+                      alt="retirement_readiness"
+                      className="self-center h-32 rounded-xl"
+                    />
+                  </div>
+                  <div className="w-full h-full flex justify-center">
+                    <p className="self-center text-center text-white font-bold text-lg">
+                      Retirement Readiness
+                    </p>
+                  </div>
+                </div>
+                <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
+                  <div className="w-full h-full flex justify-center">
+                    <img
+                      src={navigating_debt}
+                      alt="navigating_debt"
+                      className="self-center h-32 rounded-xl"
+                    />
+                  </div>
+                  <div className="w-full h-full flex justify-center">
+                    <p className="self-center text-center text-white font-bold text-lg">
+                      Navigating Debt
+                    </p>
+                  </div>
+                </div>
+                <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
+                  <div className="w-full h-full flex justify-center">
+                    <img
+                      src={investing_101}
+                      alt="investing_101"
+                      className="self-center h-32 rounded-xl"
+                    />
+                  </div>
+                  <div className="w-full h-full flex justify-center">
+                    <p className="self-center text-center text-white font-bold text-lg">
+                      Investing 101
+                    </p>
+                  </div>
+                </div>
+                <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
+                  <div className="w-full h-full flex justify-center">
+                    <img
+                      src={mastering_money}
+                      alt="mastering_money"
+                      className="self-center h-32 rounded-xl"
+                    />
+                  </div>
+                  <div className="w-full h-full flex justify-center">
+                    <p className="self-center text-center text-white font-bold text-lg">
+                      Mastering Money
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* White Box */}
+              <div className="bg-white w-full h-full rounded-bl-3xl border-l-2 border-[#5685a1]">
+                <div className="w-full h-full flex justify-center">
+                  <h1 className="self-center text-center font-bold text-2xl">
+                    Financial Education
+                  </h1>
+                </div>
+              </div>
+            </div>
+            {/* Right Side */}
+            <div className="w-full h-full grid grid-rows-[4fr_1.5fr]">
+              <img src={financial_education} alt="financial_education" className="absolute h-52 mt-4 ml-6 rounded-xl"/>
+              <div className="w-full h-full"></div>
+              {/* White Box */}
+              <div className="bg-white w-full h-full rounded-br-3xl border-r-2 border-[#5685a1]"></div>
+            </div>
           </div>
           <div className="w-full h-full"></div>
           {/* Row 3 Box 3 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-rows-[4fr_1fr]">
-            <div className="w-full h-full"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1] grid grid-rows-[4fr_1.5fr]">
+            <div className="w-full h-full flex justify-center">
+              <img src={customers_served} alt="customers_served" className="self-center h-40 rounded-xl"/>
+            </div>
             {/* White Box */}
-            <div className="bg-white w-full h-full rounded-b-3xl"></div>
+            <div className="bg-white w-full h-full rounded-b-3xl flex flex-col">
+              <div className="w-full h-1/2 text-center font-bold text-lg">Customers Served</div>
+              <div className="w-full h-1/2 text-center text-xl">4,539</div>
+            </div>
           </div>
         </div>
       </section>
