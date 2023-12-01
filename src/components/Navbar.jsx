@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Navbar = () => {
-  const [active, setActive] = useState("home");
+  const [active, setActive] = useState("");
 
   return (
     <main className="absolute w-screen h-32">

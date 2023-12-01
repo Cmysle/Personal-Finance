@@ -240,6 +240,7 @@ const Home = () => {
             {/* Left Side */}
             <div className="w-full h-full grid grid-rows-[4fr_1.5fr]">
               <div className="w-full h-full grid grid-cols-[1fr_1fr_1fr_1fr]">
+                {/* Article 1 */}
                 <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
                   <div className="w-full h-full flex justify-center">
                     <img
@@ -254,6 +255,7 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
+                {/* Article 2 */}
                 <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
                   <div className="w-full h-full flex justify-center">
                     <img
@@ -268,6 +270,7 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
+                {/* Article 3 */}
                 <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
                   <div className="w-full h-full flex justify-center">
                     <img
@@ -282,6 +285,7 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
+                {/* Article 4 */}
                 <div className="w-full h-full flex flex-col items-center grid grid-rows-[4fr_1fr]">
                   <div className="w-full h-full flex justify-center">
                     <img

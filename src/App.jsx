@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Home, Navbar } from "./components";
+import { Home, Navbar, FinancialEducation } from "./components";
 
 function App() {
   return (
@@ -7,6 +7,11 @@ function App() {
       <Navbar />
       <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/financial-education" element={<FinancialEducation />} />
       </Routes>
     </>
   );
