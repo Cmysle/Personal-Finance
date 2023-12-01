@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Navbar = () => {
-  const [active, setActive] = useState("");
-
+const Navbar = ({ active, setActive }) => {
   return (
     <main className="absolute w-screen h-32">
       <section className="bg-[#d0e5ee] w-screen h-16 grid grid-cols-2">
@@ -84,92 +82,82 @@ const Navbar = () => {
           <Link
             to="/"
             className={`${
-              active === "home" ? "bg-slate-200 text-black border-b-2 border-b-[#224768]" : "bg-[#9bc8db] text-white"
+              active === "home"
+                ? "bg-slate-200 text-black border-b-2 border-b-[#224768]"
+                : "bg-[#9bc8db] text-white"
             } mt-auto w-1/6 rounded-tl-lg border-r-2 border-r-[#5685a1]`}
             onClick={() => {
               setActive("home");
             }}
           >
-            <h3
-              className="text-lg pt-1 h-10 font-bold"
-            >
-              Home
-            </h3>
+            <h3 className="text-lg pt-1 h-10 font-bold">Home</h3>
           </Link>
           <Link
             to="/account-overview"
             className={`${
-              active === "account-overview" ? "bg-slate-200 text-black border-b-2 border-b-[#224768]" : "bg-[#9bc8db] text-white"
+              active === "account-overview"
+                ? "bg-slate-200 text-black border-b-2 border-b-[#224768]"
+                : "bg-[#9bc8db] text-white"
             } mt-auto w-1/6 border-r-2 border-r-[#5685a1]`}
             onClick={() => {
               setActive("account-overview");
             }}
           >
-            <h3
-              className="text-lg pt-1 h-10 font-bold"
-            >
-              Account Overview
-            </h3>
+            <h3 className="text-lg pt-1 h-10 font-bold">Account Overview</h3>
           </Link>
           <Link
             to="/budget-planner"
             className={`${
-              active === "budget-planner" ? "bg-slate-200 text-black border-b-2 border-b-[#224768]" : "bg-[#9bc8db] text-white"
+              active === "budget-planner"
+                ? "bg-slate-200 text-black border-b-2 border-b-[#224768]"
+                : "bg-[#9bc8db] text-white"
             } mt-auto w-1/6 border-r-2 border-r-[#5685a1]`}
             onClick={() => {
               setActive("budget-planner");
             }}
           >
-            <h3
-              className="text-lg pt-1 h-10 font-bold"
-            >
-              Budget Planner
-            </h3>
+            <h3 className="text-lg pt-1 h-10 font-bold">Budget Planner</h3>
           </Link>
           <Link
             to="/saving-goals"
             className={`${
-              active === "saving-goals" ? "bg-slate-200 text-black border-b-2 border-b-[#224768]" : "bg-[#9bc8db] text-white"
+              active === "saving-goals"
+                ? "bg-slate-200 text-black border-b-2 border-b-[#224768]"
+                : "bg-[#9bc8db] text-white"
             } mt-auto w-1/6 border-r-2 border-r-[#5685a1]`}
             onClick={() => {
               setActive("saving-goals");
             }}
           >
-            <h3
-              className="text-lg pt-1 h-10 font-bold"
-            >
-              Saving Goals
-            </h3>
+            <h3 className="text-lg pt-1 h-10 font-bold">Saving Goals</h3>
           </Link>
           <Link
             to="/investment-portfolio"
             className={`${
-              active === "investment-portfolio" ? "bg-slate-200 text-black border-b-2 border-b-[#224768]" : "bg-[#9bc8db] text-white"
+              active === "investment-portfolio"
+                ? "bg-slate-200 text-black border-b-2 border-b-[#224768]"
+                : "bg-[#9bc8db] text-white"
             } mt-auto w-1/6 border-r-2 border-r-[#5685a1]`}
             onClick={() => {
               setActive("investment-portfolio");
             }}
           >
-            <h3
-              className="text-lg pt-1 h-10 font-bold"
-            >
+            <h3 className="text-lg pt-1 h-10 font-bold">
               Investment Portfolio
             </h3>
           </Link>
           <Link
             to="/financial-education"
             className={`${
-              active === "financial-education" ? "bg-slate-200 text-black border-b-2 border-b-[#224768]" : "bg-[#9bc8db] text-white"
+              active === "financial-education"
+                ? "bg-slate-200 text-black border-b-2 border-b-[#224768]"
+                : "bg-[#9bc8db] text-white"
             } mt-auto w-1/6 rounded-tr-lg`}
             onClick={() => {
               setActive("financial-education");
             }}
           >
-            <h3
-              className="text-lg pt-1 h-10 font-bold"
-            >
-              Financial Education
-            </h3>
+            <h3 className="text-lg pt-1 h-10 font-bold">Financial Education</h3>
           </Link>
         </div>
       </section>
