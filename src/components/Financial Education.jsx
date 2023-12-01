@@ -21,8 +21,8 @@ const FinancialEducation = () => {
         <div className="w-full h-full grid grid-cols-[1fr_1fr_1fr_1fr]">
           {/* Row 2 Box 1 */}
           <div className="w-full h-full grid grid-rows-[8fr_1fr]">
-            <div className="bg-[#9bc8db] border-r-2 border-r-[#5685a1] w-full h-full flex flex-col">
-              <h1 className="w-full text-3xl font-bold mt-8 ml-10">
+            <div className="bg-[#9bc8db] border-x-2 border-x-[#5685a1] w-full h-full flex flex-col">
+              <h1 className="w-full text-3xl font-bold mt-4 ml-10">
                 Retirement Readiness
               </h1>
               <div className="w-full h-full flex justify-center">
@@ -32,7 +32,7 @@ const FinancialEducation = () => {
                   className="self-center h-52 rounded-xl"
                 />
               </div>
-              <p className="ml-10 text-md">
+              <p className="ml-10 text-md mb-2">
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
@@ -51,7 +51,7 @@ const FinancialEducation = () => {
           {/* Row 2 Box 2 */}
           <div className="w-full h-full grid grid-rows-[8fr_1fr]">
             <div className="bg-[#9bc8db] border-r-2 border-r-[#5685a1] w-full h-full flex flex-col">
-              <h1 className="w-full text-3xl font-bold mt-8 ml-10">
+              <h1 className="w-full text-3xl font-bold mt-4 ml-10">
                 Investing 101
               </h1>
               <div className="w-full h-full flex justify-center">
@@ -61,7 +61,7 @@ const FinancialEducation = () => {
                   className="self-center h-52 rounded-xl"
                 />
               </div>
-              <p className="ml-10 text-md">
+              <p className="ml-10 text-md mb-2">
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
@@ -80,7 +80,7 @@ const FinancialEducation = () => {
           {/* Row 2 Box 3 */}
           <div className="w-full h-full grid grid-rows-[8fr_1fr]">
             <div className="bg-[#9bc8db] border-r-2 border-r-[#5685a1] w-full h-full flex flex-col">
-              <h1 className="w-full text-3xl font-bold mt-8 ml-10">
+              <h1 className="w-full text-3xl font-bold mt-4 ml-10">
                 Navigating Debt
               </h1>
               <div className="w-full h-full flex justify-center">
@@ -90,7 +90,7 @@ const FinancialEducation = () => {
                   className="self-center h-52 rounded-xl"
                 />
               </div>
-              <p className="ml-10 text-md">
+              <p className="ml-10 text-md mb-2">
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
@@ -109,7 +109,7 @@ const FinancialEducation = () => {
           {/* Row 2 Box 4 */}
           <div className="w-full h-full grid grid-rows-[8fr_1fr]">
             <div className="bg-[#9bc8db] border-r-2 border-r-[#5685a1] w-full h-full flex flex-col">
-              <h1 className="w-full text-3xl font-bold mt-8 ml-10">
+              <h1 className="w-full text-3xl font-bold mt-4 ml-10">
                 Mastering Money
               </h1>
               <div className="w-full h-full flex justify-center">
@@ -119,7 +119,7 @@ const FinancialEducation = () => {
                   className="self-center h-52 rounded-xl"
                 />
               </div>
-              <p className="ml-10 text-md">
+              <p className="ml-10 text-md mb-2">
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
                 FIller text FIller text FIller text FIller text FIller text
