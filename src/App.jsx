@@ -8,21 +8,23 @@ import {
   Investing101,
   NavigatingDebt,
   RetirementReadiness,
+  AboutUs,
 } from "./components";
 
 function App() {
-  const [active, setActive] = useState("");
-
   return (
     <>
-      <Navbar active={active} setActive={setActive} />
+      <Navbar />
       <Routes>
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<Home />} />
-        <Route path="/financial-education" element={<FinancialEducation setActive={setActive}/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/financial-education" element={<FinancialEducation />} />
         <Route path="/mastering-money" element={<MasteringMoney />} />
         <Route path="/investing-101" element={<Investing101 />} />
         <Route path="/navigating-debt" element={<NavigatingDebt />} />

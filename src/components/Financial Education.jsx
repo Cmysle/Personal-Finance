@@ -61,15 +61,10 @@ const FinancialEducation = ({ setActive }) => {
               </p>
             </div>
             {/* Bottom Box */}
-            <Link
-              to="/retirement-readiness"
-              onClick={() => {
-                setActive("");
-              }}
-            >
+            <Link to="/retirement-readiness">
               <div className="bg-[#224768] rounded-bl-xl border-r-2 border-r-black border-l-4 border-l-[#5685a1] w-full h-full flex justify-center">
                 <h2 className="self-center text-xl font-bold text-[#9bc8db] hover:text-white">
-                  Read Retirement Readyiness
+                  Read Retirement Readiness
                 </h2>
               </div>
             </Link>
@@ -95,12 +90,7 @@ const FinancialEducation = ({ setActive }) => {
               </p>
             </div>
             {/* Bottom Box */}
-            <Link
-              to="/investing-101"
-              onClick={() => {
-                setActive("");
-              }}
-            >
+            <Link to="/investing-101">
               <div className="bg-[#224768] border-r-2 border-r-black w-full h-full flex justify-center">
                 <h2 className="self-center text-xl font-bold text-[#9bc8db] hover:text-white">
                   Read Investing 101
@@ -128,12 +118,7 @@ const FinancialEducation = ({ setActive }) => {
               </p>
             </div>
             {/* Bottom Box */}
-            <Link
-              to="/navigating-debt"
-              onClick={() => {
-                setActive("");
-              }}
-            >
+            <Link to="/navigating-debt">
               <div className="bg-[#224768] border-r-2 border-r-black w-full h-full flex justify-center">
                 <h2 className="self-center text-xl font-bold text-[#9bc8db] hover:text-white">
                   Read Navigating Debt
@@ -161,12 +146,7 @@ const FinancialEducation = ({ setActive }) => {
               </p>
             </div>
             {/* Bottom Box */}
-            <Link
-              to="/mastering-money"
-              onClick={() => {
-                setActive("");
-              }}
-            >
+            <Link to="/mastering-money">
               <div className="bg-[#224768] border-r-4 border-r-blue-950 rounded-br-xl w-full h-full flex justify-center">
                 <h2 className="self-center text-xl font-bold text-[#9bc8db] hover:text-white">
                   Read Mastering Money

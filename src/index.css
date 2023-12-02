@@ -13,3 +13,7 @@
 .width-screen-minus-384 {
     width: calc(100vw - 384px);
 }
+
+.width-screen-minus-640 {
+    width: calc(100vw - 640px);
+}

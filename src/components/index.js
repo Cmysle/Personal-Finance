@@ -5,6 +5,7 @@ import NavigatingDebt from "./Articles/Navigating Debt";
 import MasteringMoney from "./Articles/Mastering Money";
 import Investing101 from "./Articles/Investing 101";
 import RetirementReadiness from "./Articles/Retirement Readiness";
+import AboutUs from "./About Us";
 
 export {
   Home,
@@ -14,4 +15,5 @@ export {
   MasteringMoney,
   Investing101,
   RetirementReadiness,
+  AboutUs,
 };
