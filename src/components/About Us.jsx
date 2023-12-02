@@ -40,9 +40,10 @@ const AboutUs = () => {
               life into lines of code, and meticulously designing this personal
               finance-themed website. While it may appear to offer financial
               advice, please note that its sole purpose is to showcase my skills
-              in the technologies below, reflecting my unwavering commitment to the
-              world of web development; so, join me in exploring the captivating
-              world of pixels and code within this digital landscape.
+              in the technologies below, reflecting my unwavering commitment to
+              the world of web development; so, join me in exploring the
+              captivating world of pixels and code within this digital
+              landscape.
             </p>
           </div>
           {/* Row 1 Right Side */}
@@ -67,21 +68,28 @@ const AboutUs = () => {
               <p className="text-[#224768] text-xl ml-6 mt-6 font-medium pr-2">
                 My toolkit for crafting this captivating digital landscape
                 encompassed Vite and React for interactivity, Tailwind CSS for
-                aesthetics, Photoshop for visual enhancements, Figma for
-                collaborative design, AI-powered tools for text and image
-                generation, D3.js for dynamic data visualization, and an
-                unwavering commitment to staying at the forefront of emerging
-                technologies, showcasing a versatile blend of innovative tools
-                and expertise.
+                aesthetics, Photoshop for visual enhancements, Figma for design,
+                AI-powered tools for text and image generation, D3.js for
+                dynamic data visualization, and an unwavering commitment to
+                staying at the forefront of emerging technologies, showcasing a
+                versatile blend of innovative tools and expertise.
               </p>
             </div>
             {/* Row 2 Box 2 */}
             <div className="w-full h-full border-r-2 border-r-[#5685a1] flex justify-center">
-              <img src={tech_stack} alt="tech_stack" className="self-center h-64 rounded-xl"/>
+              <img
+                src={tech_stack}
+                alt="tech_stack"
+                className="self-center h-64 rounded-xl"
+              />
             </div>
             {/* Row 2 Box 3 */}
             <div className="w-full h-full flex justify-center">
-              <img src={tech_stack_2} alt="tech_stack_2" className="self-center h-64 rounded-xl"/>
+              <img
+                src={tech_stack_2}
+                alt="tech_stack_2"
+                className="self-center h-64 rounded-xl"
+              />
             </div>
           </div>
           <div className="w-full h-full"></div>
@@ -109,7 +117,11 @@ const AboutUs = () => {
             </h2>
           </div>
           <div className="w-full h-full flex flex-col justify-center">
-            <img src={photoshop} alt="photoshop" className="self-center h-20 mt-2" />
+            <img
+              src={photoshop}
+              alt="photoshop"
+              className="self-center h-20 mt-2"
+            />
             <h2 className="self-center font-bold text-[#224768] mt-3 text-lg">
               Photoshop
             </h2>
