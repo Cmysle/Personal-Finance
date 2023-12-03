@@ -9,16 +9,50 @@ import {
   NavigatingDebt,
   RetirementReadiness,
   AboutUs,
+  Register,
+  Login,
 } from "./components";
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <>
       <Navbar />
       <Routes>
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/register"
+          element={
+            <Register
+              user={user}
+              setUser={setUser}
+              username={username}
+              setUsername={setUsername}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Login
+              user={user}
+              setUser={setUser}
+              username={username}
+              setUsername={setUsername}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+            />
+          }
+        />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/" element={<Home />} />
