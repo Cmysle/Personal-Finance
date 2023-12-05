@@ -9,10 +9,17 @@ export function useUser() {
 
 export function UserProvider(props) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkUserStatus()
+ }, [])
 
   async function login(email, password) {
+    setLoading(true);
     const loggedIn = await account.createEmailSession(email, password);
     setUser(loggedIn);
+    setLoading(false);
   }
 
   async function logout() {
@@ -21,14 +28,28 @@ export function UserProvider(props) {
   }
 
   async function register(username, email, password) {
+    setLoading(true);
     await account.create(username, email, password);
     await login(email, password);
+    setLoading(false);
+  }
+
+  async function checkUserStatus() {
+    try {
+      let accountDetails = await account.get();
+      setUser(accountDetails);
+      setLoading(false);
+    } catch (error) {
+      setUser(null);
+      setLoading(false);
+    }
   }
 
   async function init() {
     try {
       const loggedIn = await account.get();
       setUser(loggedIn);
+      setLoading(false);
     } catch (err) {
       setUser(null);
     }
@@ -39,8 +60,16 @@ export function UserProvider(props) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ current: user, login, logout, register }}>
-      {props.children}
+    <UserContext.Provider
+      value={{ current: user, login, logout, register, checkUserStatus }}
+    >
+      {loading ? (
+        <div className="bg-[#d0e5ee] w-full h-screen ">
+          <p className="w-full text-center text-3xl pt-20">Loading...</p>
+        </div>
+      ) : (
+        props.children
+      )}
     </UserContext.Provider>
   );
 }

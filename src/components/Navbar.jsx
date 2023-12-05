@@ -57,11 +57,11 @@ const Navbar = () => {
               Support
             </h2>
           </Link>
-          <div className="flex-auto my-auto">
+          <div className="flex-none my-auto">
             {user.current ? (
               <>
                 <button
-                  className="text-center bg-[#224768] w-24 py-1 rounded-xl text-lg text-white"
+                  className="text-center bg-[#224768] w-24 py-1 mr-16 rounded-xl text-lg text-white"
                   type="button"
                   onClick={() => user.logout()}
                 >
@@ -72,7 +72,7 @@ const Navbar = () => {
               <Link
                 to="/login"
               >
-                <div className="text-center bg-[#224768] w-24 py-1 rounded-xl text-lg text-white">Sign In</div>
+                <div className="text-center bg-[#224768] w-24 py-1 mr-16 rounded-xl text-lg text-white">Sign In</div>
               </Link>
             )}
           </div>

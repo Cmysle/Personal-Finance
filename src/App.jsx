@@ -13,6 +13,7 @@ import {
   Login,
 } from "./components";
 import { UserProvider } from "./utils/user";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -25,32 +26,34 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/about-us" element={<AboutUs />} />
-          <Route
-            path="/register"
-            element={
-              <Register
-                username={username}
-                setUsername={setUsername}
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-              />
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <Login
-                username={username}
-                setUsername={setUsername}
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-              />
-            }
-          />
+          <Route element={<PrivateRoutes />}>
+            <Route
+              path="/register"
+              element={
+                <Register
+                  username={username}
+                  setUsername={setUsername}
+                  email={email}
+                  setEmail={setEmail}
+                  password={password}
+                  setPassword={setPassword}
+                />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <Login
+                  username={username}
+                  setUsername={setUsername}
+                  email={email}
+                  setEmail={setEmail}
+                  password={password}
+                  setPassword={setPassword}
+                />
+              }
+            />
+          </Route>
           <Route path="/" element={<Home />} />
           <Route path="/" element={<Home />} />
           <Route path="/" element={<Home />} />
