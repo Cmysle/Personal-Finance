@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { login, register } from "../api";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../utils/user";
 import register_left from "../assets/register_left.png";
 import register_right from "../assets/register_right.png";
 import register_middle from "../assets/register_middle.png";
 import bb_logo_face from "../assets/bb_logo_face.png";
 
 const Register = ({
-  user,
-  setUser,
   username,
   setUsername,
   email,
@@ -16,6 +13,17 @@ const Register = ({
   password,
   setPassword,
 }) => {
+  const user = useUser();
+  const navigate = useNavigate();
+
+  function handleRegister(username, email, password) {
+    user.register(username, email, password);
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    navigate("/")
+  }
+
   return (
     <main className="bg-[#d0e5ee] w-screen h-screen">
       <div className="w-screen h-32"></div>
@@ -107,7 +115,7 @@ const Register = ({
                   <button
                     className="w-full mr-8 h-16 self-center rounded-full bg-white hover:bg-[#d0e5ee] text-3xl font-bold text-[#5685a1] hover:text-[#224768]"
                     type="button"
-                    onClick={() => register(username, email, password, user, setUser)}
+                    onClick={() => handleRegister(username, email, password)}
                   >
                     Register
                   </button>

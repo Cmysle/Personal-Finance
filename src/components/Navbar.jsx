@@ -1,8 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useUser } from "../utils/user";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
+  
+  const user = useUser();
+
 
   let location = useLocation();
   useEffect(() => {
@@ -54,9 +58,23 @@ const Navbar = () => {
             </h2>
           </Link>
           <div className="flex-auto my-auto">
-            <h2 className="bg-[#224768] w-fit px-3 py-1 rounded-xl text-lg text-white">
-              Log Out
-            </h2>
+            {user.current ? (
+              <>
+                <button
+                  className="text-center bg-[#224768] w-24 py-1 rounded-xl text-lg text-white"
+                  type="button"
+                  onClick={() => user.logout()}
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+              >
+                <div className="text-center bg-[#224768] w-24 py-1 rounded-xl text-lg text-white">Sign In</div>
+              </Link>
+            )}
           </div>
         </div>
       </section>

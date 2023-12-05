@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { login, register } from "../api";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../utils/user";
 import register_left from "../assets/register_left.png";
 import register_right from "../assets/register_right.png";
 import register_middle from "../assets/register_middle.png";
 import bb_logo_face from "../assets/bb_logo_face.png";
 
 const Login = ({
-  user,
-  setUser,
   username,
   setUsername,
   email,
@@ -16,6 +13,17 @@ const Login = ({
   password,
   setPassword,
 }) => {
+  const user = useUser();
+  const navigate = useNavigate();
+
+  function handleLogin(email, password) {
+    user.login(email, password);
+    setUsername("");
+    setEmail("");
+    setPassword("");
+    navigate("/");
+  }
+
   return (
     <main className="bg-[#d0e5ee] w-screen h-screen">
       <div className="w-screen h-32"></div>
@@ -66,7 +74,6 @@ const Login = ({
                   value={email}
                   onChange={(event) => {
                     setEmail(event.target.value);
-                    console.log(email);
                   }}
                   className="bg-[#d0e5ee] w-3/5 h-full rounded-xl text-2xl pl-6"
                 />
@@ -83,7 +90,6 @@ const Login = ({
                   value={password}
                   onChange={(event) => {
                     setPassword(event.target.value);
-                    console.log(password);
                   }}
                   className="bg-[#d0e5ee] w-3/5 h-full rounded-xl text-2xl pl-6"
                 />
@@ -93,7 +99,7 @@ const Login = ({
                   <button
                     className="w-full mr-8 h-16 self-center rounded-full bg-white hover:bg-[#d0e5ee] text-3xl font-bold text-[#5685a1] hover:text-[#224768]"
                     type="button"
-                    onClick={() => login(email, password, user, setUser)}
+                    onClick={() => handleLogin(email, password)}
                   >
                     Login
                   </button>
