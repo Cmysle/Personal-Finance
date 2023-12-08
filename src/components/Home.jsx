@@ -14,7 +14,7 @@ import customers_served from "../assets/customers_served.png";
 
 const Home = () => {
   return (
-    <main className="bg-[#d0e5ee] w-screen h-screen">
+    <main className="bg-[#d0e5ee] w-screen h-screen min-h-[1080px]">
       <div className="w-screen h-32"></div>
       <section className="width-screen-minus-128 height-screen-minus-192 mt-8 mx-16 grid grid-rows-[5fr_32px_2fr_32px_3fr]">
         <div className="w-full h-full grid grid-cols-[5.5fr_32px_4.5fr]">

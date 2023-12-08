@@ -11,6 +11,7 @@ import {
   AboutUs,
   Register,
   Login,
+  BudgetPlanner,
 } from "./components";
 import { UserProvider } from "./utils/user";
 import PrivateRoutes from "./utils/PrivateRoutes";
@@ -26,6 +27,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/how-it-works" element={<AboutUs />} />
+          <Route path="/support" element={<AboutUs />} />
           <Route element={<PrivateRoutes />}>
             <Route
               path="/register"
@@ -55,10 +58,10 @@ function App() {
             />
           </Route>
           <Route path="/" element={<Home />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/account-overview" element={<Home />} />
+          <Route path="/budget-planner" element={<BudgetPlanner />} />
+          <Route path="/saving-goals" element={<Home />} />
+          <Route path="/investment-portfolio" element={<Home />} />
           <Route path="/financial-education" element={<FinancialEducation />} />
           <Route path="/mastering-money" element={<MasteringMoney />} />
           <Route path="/investing-101" element={<Investing101 />} />

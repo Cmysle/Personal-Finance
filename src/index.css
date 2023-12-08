@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .height-screen-minus-192 {
-    height: calc(100vh - 192px);
+    height: calc(1080px - 192px);
 }
 
 .width-screen-minus-128 {

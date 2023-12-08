@@ -8,6 +8,7 @@ import RetirementReadiness from "./Articles/Retirement Readiness";
 import AboutUs from "./About Us";
 import Register from "./Register";
 import Login from "./Login";
+import BudgetPlanner from "./Budget Planner";
 
 export {
   Home,
@@ -19,5 +20,6 @@ export {
   RetirementReadiness,
   AboutUs,
   Register,
-  Login
+  Login,
+  BudgetPlanner
 };
