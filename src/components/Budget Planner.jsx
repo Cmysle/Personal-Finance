@@ -22,12 +22,12 @@ const BudgetPlanner = () => {
     <main className="bg-[#d0e5ee] w-screen h-screen min-h-[1080px]">
       <div className="w-screen h-32"></div>
       <section className="width-screen-minus-128 height-screen-minus-192 mt-8 mx-16 grid grid-cols-[1fr_32px_4.5fr]">
-        <div className="bg-red-100 w-full h-full grid grid-rows-[1fr_32px_1fr_32px_1fr]">
-          <div className="bg-green-100 w-full h-full"></div>
+        <div className="w-full h-full grid grid-rows-[1fr_32px_1fr_32px_1fr]">
+          <div className="bg-[#9bc8db] w-full h-full rounded-xl"></div>
           <div className="w-full h-full"></div>
-          <div className="bg-green-100 w-full h-full"></div>
+          <div className="bg-[#9bc8db] w-full h-full rounded-xl"></div>
           <div className="w-full h-full"></div>
-          <div className="bg-green-100 w-full h-full"></div>
+          <div className="bg-[#9bc8db] w-full h-full rounded-xl"></div>
         </div>
         <div className="w-full h-full"></div>
         <div
