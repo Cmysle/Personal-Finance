@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useUser } from "../../utils/user";
+import { v4 as uuidv4 } from "uuid";
 
 const Transactions = () => {
   const [category, setCategory] = useState("");
@@ -7,6 +9,7 @@ const Transactions = () => {
   const [name, setName] = useState("");
   const [recentTrans, setRecentTrans] = useState([]);
 
+  const user = useUser();
   let totalTrans = recentTrans;
 
   function createTrans(name, category, amount) {
@@ -18,6 +21,19 @@ const Transactions = () => {
     console.log(totalTrans);
   }
 
+  function handleCreateDoc(name, category, amount, date) {
+    const DatabaseId = "65762a66918289095986";
+    const CollectionId = "65762cfa3603f9971f6c";
+    const DocumentId = uuidv4();
+    user.createDoc(DatabaseId, CollectionId, DocumentId, {
+      Name: name,
+      Date: date,
+      Category: category,
+      Amount: amount,
+      CurrUser: "TestUser1",
+    });
+  }
+
   return (
     <main className="bg-[#9bc8db] w-full h-full rounded-r-xl grid grid-cols-[32px_1fr_32px]">
       <div className="w-full h-full"></div>
@@ -27,7 +43,7 @@ const Transactions = () => {
         <form className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col">
           <div className="w-full h-1/2 flex justify-between pl-8 border-b-2 border-b-[#9bc8db] border-dashed">
             <h1 className="self-center text-5xl font-bold text-white">
-              Add A Transaction
+              Log A Transaction
             </h1>
             <div className="w-3/5 flex justify-between ">
               <div className="self-center bg-[#d0e5ee] rounded-xl w-3/5 h-10 flex mr-20 mt-2">
@@ -101,9 +117,9 @@ const Transactions = () => {
               <button
                 className="w-full text-center h-10 self-center rounded-full bg-white hover:bg-[#d0e5ee] text-3xl font-bold text-[#5685a1] hover:text-[#224768]"
                 type="button"
-                onClick={() => createTrans(name, category, amount)}
+                onClick={() => handleCreateDoc(name, category, amount, date)}
               >
-                Create Transaction
+                Log Transaction
               </button>
             </div>
           </div>

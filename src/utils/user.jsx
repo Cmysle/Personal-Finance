@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { account } from "../appwriteConfig";
+import { account, databases } from "../appwriteConfig";
 
 const UserContext = createContext();
 
@@ -12,8 +12,8 @@ export function UserProvider(props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkUserStatus()
- }, [])
+    checkUserStatus();
+  }, []);
 
   async function login(email, password) {
     setLoading(true);
@@ -31,6 +31,12 @@ export function UserProvider(props) {
     setLoading(true);
     await account.create(username, email, password);
     await login(email, password);
+    setLoading(false);
+  }
+
+  async function createDoc(database, collection, documentId, data) {
+    setLoading(true);
+    await databases.createDocument(database, collection, documentId, data);
     setLoading(false);
   }
 
@@ -61,7 +67,14 @@ export function UserProvider(props) {
 
   return (
     <UserContext.Provider
-      value={{ current: user, login, logout, register, checkUserStatus }}
+      value={{
+        current: user,
+        login,
+        logout,
+        register,
+        checkUserStatus,
+        createDoc,
+      }}
     >
       {loading ? (
         <div className="bg-[#d0e5ee] w-full h-screen ">
