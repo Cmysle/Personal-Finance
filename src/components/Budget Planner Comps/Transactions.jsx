@@ -3,6 +3,7 @@ import { useUser } from "../../utils/user";
 import { v4 as uuidv4 } from "uuid";
 
 const Transactions = () => {
+  const [topPriciestTransactions, setTopPriciestTransactions] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [dateError, setDateError] = useState("");
   const [category, setCategory] = useState("");
@@ -20,7 +21,7 @@ const Transactions = () => {
       .then((response) => response.json())
       .then((data) => {
         const sortedTransactions = data.documents.sort((a, b) => {
-          const dateAStr = a.Date.toString().padStart(8, "0"); 
+          const dateAStr = a.Date.toString().padStart(8, "0");
           const dateBStr = b.Date.toString().padStart(8, "0");
 
           const yearA = parseInt(dateAStr.substring(4, 8), 10);
@@ -36,7 +37,14 @@ const Transactions = () => {
           return dayB - dayA;
         });
 
+        const sortedByAmount = [...data.documents]
+          .sort((a, b) => {
+            return parseFloat(b.Amount) - parseFloat(a.Amount);
+          })
+          .slice(0, 6);
+
         setTransactions(sortedTransactions);
+        setTopPriciestTransactions(sortedByAmount);
       })
       .catch((error) => {
         console.error("Error fetching transactions:", error);
@@ -272,7 +280,29 @@ const Transactions = () => {
         </div>
         <div className="w-full h-full"></div>
         {/* Box 3 */}
-        <div className="bg-[#5685a1] w-full h-full rounded-xl"></div>
+        <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
+          <h1 className="text-white font-bold text-3xl pl-8 mt-2 pb-2 border-b-2 border-b-[#224768]">
+            Top Priciest Transactions
+          </h1>
+          <div className="h-full rounded-b-xl grid grid-cols-2">
+            {topPriciestTransactions.map((transaction) => (
+              <div
+                key={transaction.$id}
+                className="bg-[#9bc8db] flex flex-row w-full h-[99%]"
+              >
+                <p className="w-1/3 self-center text-[#224768] text-2xl font-semibold pl-2">
+                  {capitalize(transaction.Name)}
+                </p>
+                <p className="w-1/3 self-center text-[#224768] text-xl font-medium">
+                  {formatDate(transaction.Date)}
+                </p>
+                <p className="w-1/3 self-center text-[#224768] text-xl font-medium">
+                  {formatAmount(transaction.Amount)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="w-full h-full"></div>
       </section>
       <div className="w-full h-full"></div>
