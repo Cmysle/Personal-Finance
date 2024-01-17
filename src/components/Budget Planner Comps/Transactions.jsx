@@ -136,18 +136,40 @@ const Transactions = () => {
     }
     setDateError("");
 
-    user.createDoc(DatabaseId, CollectionId, DocumentId, {
-      Name: name,
-      Date: formattedDate,
-      Category: category,
-      Amount: amount,
-      CurrUser: "test",
-    });
+    user
+      .createDoc(DatabaseId, CollectionId, DocumentId, {
+        Name: name,
+        Date: formattedDate,
+        Category: category,
+        Amount: amount,
+        CurrUser: "test",
+      })
+      .then(() => {
+        fetchTransactions();
+      })
+      .catch((error) => {
+        console.error("Error creating transaction:", error);
+      });
 
     setCategory("");
     setDate("");
     setAmount("");
     setName("");
+  }
+
+  function deleteTransaction(documentId) {
+    fetch(`http://localhost:3000/deleteDocument/${documentId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        fetchTransactions();
+      })
+      .catch((error) => {
+        console.error("Error deleting transaction:", error);
+      });
   }
 
   useEffect(() => {
@@ -262,18 +284,26 @@ const Transactions = () => {
                 key={transaction.$id}
                 className="bg-[#9bc8db] flex flex-row w-full h-14"
               >
-                <p className="w-1/4 self-center text-[#224768] text-2xl font-semibold pl-2">
+                <p className="w-1/4 self-center text-[#224768] text-2xl font-semibold px-2 truncate">
                   {capitalize(transaction.Name)}
                 </p>
-                <p className="w-1/4 self-center text-[#224768] text-xl font-medium">
+                <p className="w-1/4 self-center text-[#224768] text-xl font-medium pr-2 truncate">
                   {capitalize(transaction.Category)}
                 </p>
                 <p className="w-1/4 self-center text-[#224768] text-xl font-medium">
                   {formatDate(transaction.Date)}
                 </p>
-                <p className="w-1/4 self-center text-[#224768] text-xl font-medium">
+                <p className="w-1/6 self-center text-[#224768] text-xl font-medium pr-2 truncate">
                   {formatAmount(transaction.Amount)}
                 </p>
+                <div className="w-1/12 h-full flex justify-center items-center">
+                  <button
+                    onClick={() => deleteTransaction(transaction.$id)}
+                    className="bg-[#224768] hover:font-bold text-white text-lg rounded-xl w-fit h-fit p-2"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -290,13 +320,13 @@ const Transactions = () => {
                 key={transaction.$id}
                 className="bg-[#9bc8db] flex flex-row w-full h-[99%]"
               >
-                <p className="w-1/3 self-center text-[#224768] text-2xl font-semibold pl-2">
+                <p className="w-1/3 self-center text-[#224768] text-2xl font-semibold px-2 truncate">
                   {capitalize(transaction.Name)}
                 </p>
                 <p className="w-1/3 self-center text-[#224768] text-xl font-medium">
                   {formatDate(transaction.Date)}
                 </p>
-                <p className="w-1/3 self-center text-[#224768] text-xl font-medium">
+                <p className="w-1/3 self-center text-[#224768] text-xl font-medium pr-2 truncate">
                   {formatAmount(transaction.Amount)}
                 </p>
               </div>
