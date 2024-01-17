@@ -22,6 +22,19 @@ export function UserProvider(props) {
     setLoading(false);
   }
 
+  async function getUser() {
+    let accountDetails = await account.get();
+    return accountDetails;
+  }
+
+  async function getTransactions(DatabaseId, CollectionId) {
+    let transactionDetails = await databases.listDocuments(
+      DatabaseId,
+      CollectionId
+    );
+    return transactionDetails;
+  }
+
   async function logout() {
     await account.deleteSession("current");
     setUser(null);
@@ -35,9 +48,7 @@ export function UserProvider(props) {
   }
 
   async function createDoc(database, collection, documentId, data) {
-    setLoading(true);
     await databases.createDocument(database, collection, documentId, data);
-    setLoading(false);
   }
 
   async function checkUserStatus() {
@@ -74,6 +85,8 @@ export function UserProvider(props) {
         register,
         checkUserStatus,
         createDoc,
+        getUser,
+        getTransactions,
       }}
     >
       {loading ? (
