@@ -299,7 +299,7 @@ const Transactions = () => {
                 <div className="w-1/12 h-full flex justify-center items-center">
                   <button
                     onClick={() => deleteTransaction(transaction.$id)}
-                    className="bg-[#224768] hover:font-bold text-white text-lg rounded-xl w-fit h-fit p-2"
+                    className="bg-[#224768] hover:font-bold text-white text-lg rounded-xl w-fit h-fit px-2 py-1"
                   >
                     Delete
                   </button>
