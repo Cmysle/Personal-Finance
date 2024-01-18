@@ -1,33 +1,65 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../../utils/user";
+import incomepng from "../../assets/income.png";
+import expensepng from "../../assets/expense.png";
 
-const Dashboard = () => {
+// eslint-disable-next-line react/prop-types
+const Dashboard = ({ filterType }) => {
+  const [recentTransactions, setRecentTransactions] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [income, setIncome] = useState([]);
 
   const fetchTransactions = () => {
     fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
       .then((response) => response.json())
       .then((data) => {
-        const sortedTransactions = data.documents
-          .sort((a, b) => {
-            const dateAStr = a.Date.toString().padStart(8, "0");
-            const dateBStr = b.Date.toString().padStart(8, "0");
+        const sortedTransactions = data.documents.sort((a, b) => {
+          const dateAStr = a.Date.toString().padStart(8, "0");
+          const dateBStr = b.Date.toString().padStart(8, "0");
 
-            const yearA = parseInt(dateAStr.substring(4, 8), 10);
-            const monthA = parseInt(dateAStr.substring(0, 2), 10);
-            const dayA = parseInt(dateAStr.substring(2, 4), 10);
+          const yearA = parseInt(dateAStr.substring(4, 8), 10);
+          const monthA = parseInt(dateAStr.substring(0, 2), 10);
+          const dayA = parseInt(dateAStr.substring(2, 4), 10);
 
-            const yearB = parseInt(dateBStr.substring(4, 8), 10);
-            const monthB = parseInt(dateBStr.substring(0, 2), 10);
-            const dayB = parseInt(dateBStr.substring(2, 4), 10);
+          const yearB = parseInt(dateBStr.substring(4, 8), 10);
+          const monthB = parseInt(dateBStr.substring(0, 2), 10);
+          const dayB = parseInt(dateBStr.substring(2, 4), 10);
 
-            if (yearA !== yearB) return yearB - yearA;
-            if (monthA !== monthB) return monthB - monthA;
-            return dayB - dayA;
-          })
-          .slice(0, 4);
+          if (yearA !== yearB) return yearB - yearA;
+          if (monthA !== monthB) return monthB - monthA;
+          return dayB - dayA;
+        });
 
         setTransactions(sortedTransactions);
+        setRecentTransactions(sortedTransactions.slice(0, 5));
+      })
+      .catch((error) => {
+        console.error("Error fetching transactions:", error);
+      });
+  };
+
+  const fetchIncome = () => {
+    fetch("http://localhost:3000/listUserIncome?CurrUser=test")
+      .then((response) => response.json())
+      .then((data) => {
+        const sortedIncome = data.documents.sort((a, b) => {
+          const dateAStr = a.Date.toString().padStart(8, "0");
+          const dateBStr = b.Date.toString().padStart(8, "0");
+
+          const yearA = parseInt(dateAStr.substring(4, 8), 10);
+          const monthA = parseInt(dateAStr.substring(0, 2), 10);
+          const dayA = parseInt(dateAStr.substring(2, 4), 10);
+
+          const yearB = parseInt(dateBStr.substring(4, 8), 10);
+          const monthB = parseInt(dateBStr.substring(0, 2), 10);
+          const dayB = parseInt(dateBStr.substring(2, 4), 10);
+
+          if (yearA !== yearB) return yearB - yearA;
+          if (monthA !== monthB) return monthB - monthA;
+          return dayB - dayA;
+        });
+
+        setIncome(sortedIncome);
       })
       .catch((error) => {
         console.error("Error fetching transactions:", error);
@@ -66,8 +98,115 @@ const Dashboard = () => {
       .join(" ");
   };
 
+  const calculateTotalIncome = (filter) => {
+    if (filter == "ALL")
+      return income.reduce((acc, income) => acc + parseFloat(income.Amount), 0);
+    return filterTransactions(income, filterType).reduce(
+      (acc, income) => acc + parseFloat(income.Amount),
+      0
+    );
+  };
+
+  const calculateTotalExpense = (filter) => {
+    if (filter == "ALL")
+      return transactions.reduce(
+        (acc, income) => acc + parseFloat(income.Amount),
+        0
+      );
+    return filterTransactions(transactions, filterType).reduce(
+      (acc, income) => acc + parseFloat(income.Amount),
+      0
+    );
+  };
+
+  const calculateDailySpend = (filter) => {
+    let oldestTransaction = transactions[transactions.length - 1];
+    let filteredTransactions = filterTransactions(transactions, filter);
+    let totalSpend = filteredTransactions.reduce(
+      (acc, transaction) => acc + parseFloat(transaction.Amount),
+      0
+    );
+    if (filter == "ALL") {
+      totalSpend = transactions.reduce(
+        (acc, transaction) => acc + parseFloat(transaction.Amount),
+        0
+      );
+    }
+    let daysCount;
+    const today = new Date();
+    switch (filter) {
+      case "ALL": {
+        if (oldestTransaction == undefined) break;
+        today.setHours(0, 0, 0, 0);
+
+        const dateStr = oldestTransaction.Date.toString().padStart(8, "0");
+        const year = parseInt(dateStr.substring(4, 8), 10);
+        const month = parseInt(dateStr.substring(0, 2), 10);
+        const day = parseInt(dateStr.substring(2, 4), 10);
+        const oldestDate = new Date(year, month - 1, day);
+
+        const diffInMilliseconds = today - oldestDate;
+
+        daysCount = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
+
+        break;
+      }
+      case "MTD":
+        daysCount = today.getDate();
+        break;
+      case "YTD":
+        daysCount = (today.getMonth() + 1) * 30 + today.getDate();
+        break;
+      case "6MO":
+        daysCount = 6 * 30;
+        break;
+      case "12MO":
+        daysCount = 365;
+        break;
+    }
+
+    return totalSpend / daysCount;
+  };
+
+  const filterTransactions = (transactions, filterType) => {
+    let startDate;
+
+    switch (filterType) {
+      case "YTD":
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        break;
+
+      case "MTD":
+        startDate = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          1
+        );
+        break;
+
+      case "6MO":
+        startDate = new Date();
+        startDate.setMonth(startDate.getMonth() - 6);
+        break;
+
+      case "12MO":
+        startDate = new Date();
+        startDate.setMonth(startDate.getMonth() - 12);
+        break;
+    }
+    return transactions.filter((transaction) => {
+      const dateStr = transaction.Date.toString().padStart(8, "0");
+      const year = parseInt(dateStr.substring(4, 8), 10);
+      const month = parseInt(dateStr.substring(0, 2), 10);
+      const day = parseInt(dateStr.substring(2, 4), 10);
+      const transactionDate = new Date(year, month - 1, day);
+      return transactionDate >= startDate;
+    });
+  };
+
   useEffect(() => {
     fetchTransactions();
+    fetchIncome();
   }, []);
 
   return (
@@ -77,13 +216,67 @@ const Dashboard = () => {
         <div className="w-full h-full"></div>
         <div className="w-full h-full grid grid-cols-[1fr_64px_1fr_64px_1fr]">
           {/* Row 1 Box 1 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-xl"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
+            <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
+              Total Income ({filterType})
+            </h1>
+            <div className="bg-[#9bc8db] w-full h-full flex flex-row">
+              <div className="w-3/4 h-full flex">
+                <h3 className="w-full text-4xl text-[#224768] font-semibold text-center self-center">
+                  {formatAmount(calculateTotalIncome(filterType))}
+                </h3>
+              </div>
+              <div className="w-1/4 h-full flex justify-center">
+                <img
+                  className="h-14 self-center rounded-xl"
+                  src={incomepng}
+                  alt="Income Png"
+                />
+              </div>
+            </div>
+          </div>
           <div className="w-full h-full"></div>
           {/* Row 1 Box 2 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-xl"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
+            <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
+              Total Expenses ({filterType})
+            </h1>
+            <div className="bg-[#9bc8db] w-full h-full flex flex-row">
+              <div className="w-3/4 h-full flex">
+                <h3 className="w-full text-4xl text-[#224768] font-semibold text-center self-center">
+                  {formatAmount(calculateTotalExpense(filterType))}
+                </h3>
+              </div>
+              <div className="w-1/4 h-full flex justify-center">
+                <img
+                  className="h-14 self-center rounded-xl"
+                  src={expensepng}
+                  alt="Expense Png"
+                />
+              </div>
+            </div>
+          </div>
           <div className="w-full h-full"></div>
           {/* Row 1 Box 3 */}
-          <div className="bg-[#5685a1] w-full h-full rounded-xl"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
+            <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
+              Average Daily Spend ({filterType})
+            </h1>
+            <div className="bg-[#9bc8db] w-full h-full flex flex-row">
+              <div className="w-3/4 h-full flex">
+                <h3 className="w-full text-4xl text-[#224768] font-semibold text-center self-center">
+                  {formatAmount(calculateDailySpend(filterType, transactions))}
+                </h3>
+              </div>
+              <div className="w-1/4 h-full flex justify-center">
+                <img
+                  className="h-14 self-center rounded-xl"
+                  src={incomepng}
+                  alt="Income Png"
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div className="w-full h-full"></div>
         {/* Box 2 */}
@@ -95,10 +288,10 @@ const Dashboard = () => {
             Most Recent Transactions
           </h1>
           <div className="h-full rounded-b-xl">
-            {transactions.map((transaction) => (
+            {recentTransactions.map((transaction) => (
               <div
                 key={transaction.$id}
-                className="bg-[#9bc8db] flex flex-row w-full h-1/4"
+                className="bg-[#9bc8db] flex flex-row justify-between w-full h-1/5"
               >
                 <p className="w-1/4 self-center text-[#224768] text-2xl font-semibold px-2 truncate">
                   {capitalize(transaction.Name)}

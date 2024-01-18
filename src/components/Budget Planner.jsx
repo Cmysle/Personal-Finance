@@ -4,8 +4,9 @@ import Income from "./Budget Planner Comps/Income";
 import { useState } from "react";
 
 const BudgetPlanner = () => {
-  const [page, setPage] = useState("");
+  const [filterType, setFilterType] = useState("ALL");
   const [menu, setMenu] = useState(false);
+  const [page, setPage] = useState("");
 
   function handleMenuClick() {
     if (menu === false) {
@@ -23,11 +24,85 @@ const BudgetPlanner = () => {
       <div className="w-screen h-32"></div>
       <section className="width-screen-minus-128 height-screen-minus-192 mt-8 mx-16 grid grid-cols-[1fr_32px_4.5fr]">
         <div className="w-full h-full grid grid-rows-[1fr_32px_1fr_32px_1fr]">
-          <div className="bg-[#9bc8db] w-full h-full rounded-xl"></div>
+          <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
+            <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
+              Filter By
+            </h1>
+            <div className="bg-[#9bc8db] w-full h-full flex flex-col">
+              <div className="w-full h-1/4 flex flex-row justify-around">
+                <div className="w-1/3 self-center flex justify-center">
+                  <h3
+                    className={`${
+                      filterType === "ALL"
+                        ? "bg-[#9bc8db] text-[#224768]"
+                        : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-2xl font-semibold text-center self-center`}
+                    onClick={() => setFilterType("ALL")}
+                  >
+                    All
+                  </h3>
+                </div>
+                <div className="w-1/3 self-center flex justify-center">
+                  <h3
+                    className={`${
+                      filterType === "MTD"
+                        ? "bg-[#9bc8db] text-[#224768]"
+                        : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-2xl font-semibold text-center self-center`}
+                    onClick={() => setFilterType("MTD")}
+                  >
+                    MTD
+                  </h3>
+                </div>
+                <div className="w-1/3 self-center flex justify-center">
+                  <h3
+                    className={`${
+                      filterType === "YTD"
+                        ? "bg-[#9bc8db] text-[#224768]"
+                        : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-2xl font-semibold text-center self-center`}
+                    onClick={() => setFilterType("YTD")}
+                  >
+                    YTD
+                  </h3>
+                </div>
+              </div>
+              <div className="w-full h-1/4 flex flex-row justify-around">
+                <div className="w-1/3 self-center flex justify-center">
+                  <h3
+                    className={`${
+                      filterType === "6MO"
+                        ? "bg-[#9bc8db] text-[#224768]"
+                        : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-full text-2xl font-semibold text-center self-center`}
+                    onClick={() => setFilterType("6MO")}
+                  >
+                    Past 6 Months
+                  </h3>
+                </div>
+                <div className="w-1/3 self-center flex justify-center">
+                  <h3
+                    className={`${
+                      filterType === "12MO"
+                        ? "bg-[#9bc8db] text-[#224768]"
+                        : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-full text-2xl font-semibold text-center self-center`}
+                    onClick={() => setFilterType("12MO")}
+                  >
+                    Past 12 Months
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="w-full h-full"></div>
-          <div className="bg-[#9bc8db] w-full h-full rounded-xl"></div>
+          <div className="bg-[#9bc8db] text-center text-2xl w-full h-full rounded-xl">
+            Income By Category Pie Chart
+          </div>
           <div className="w-full h-full"></div>
-          <div className="bg-[#9bc8db] w-full h-full rounded-xl"></div>
+          <div className="bg-[#9bc8db] text-center text-2xl w-full h-full rounded-xl">
+            Expenses By Category Pie Chart
+          </div>
         </div>
         <div className="w-full h-full"></div>
         <div
@@ -106,7 +181,10 @@ const BudgetPlanner = () => {
             ) : page === "transactions" ? (
               <Transactions />
             ) : (
-              <Dashboard />
+              <Dashboard
+                filterType={filterType}
+                setFilterType={setFilterType}
+              />
             )}
           </div>
         </div>
