@@ -1,6 +1,6 @@
 import Transactions from "./Budget Planner Comps/Transactions";
 import Dashboard from "./Budget Planner Comps/Dashboard";
-import Budget from "./Budget Planner Comps/Budget";
+import Income from "./Budget Planner Comps/Income";
 import { useState } from "react";
 
 const BudgetPlanner = () => {
@@ -73,14 +73,14 @@ const BudgetPlanner = () => {
                     </div>
                     <div
                       className={` ${
-                        page === "budget"
+                        page === "income"
                           ? "bg-[#d0e5ee] text-[#224768]"
                           : "text-[#d0e5ee] hover:text-[#224768]"
                       } flex flex-row justify-start w-4/5 py-1 ml-2 mt-2 rounded-lg hover:cursor-pointer overflow-hidden`}
-                      onClick={() => handlePageClick("budget")}
+                      onClick={() => handlePageClick("income")}
                     >
                       <div className="self-center pl-2 font-bold whitespace-nowrap">
-                        • Budget
+                        • Income
                       </div>
                     </div>
                     <div
@@ -101,8 +101,8 @@ const BudgetPlanner = () => {
             </div>
           </div>
           <div className="w-full h-full">
-            {page === "budget" ? (
-              <Budget />
+            {page === "income" ? (
+              <Income />
             ) : page === "transactions" ? (
               <Transactions />
             ) : (

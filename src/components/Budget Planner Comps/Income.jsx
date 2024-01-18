@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useUser } from "../../utils/user";
 import { v4 as uuidv4 } from "uuid";
 
-const Transactions = () => {
-  const [topPriciestTransactions, setTopPriciestTransactions] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+const Income = () => {
+  const [highestIncomePayments, setHighestIncomePayments] = useState([]);
+  const [income, setIncome] = useState([]);
   const [dateError, setDateError] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -13,14 +13,14 @@ const Transactions = () => {
 
   const user = useUser();
   const DatabaseId = "65762a66918289095986";
-  const CollectionId = "65762cfa3603f9971f6c";
+  const CollectionId = "65a947f6209906d314ec";
   const DocumentId = uuidv4();
 
-  const fetchTransactions = () => {
-    fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
+  const fetchIncome = () => {
+    fetch("http://localhost:3000/listUserIncome?CurrUser=test")
       .then((response) => response.json())
       .then((data) => {
-        const sortedTransactions = data.documents.sort((a, b) => {
+        const sortedIncome = data.documents.sort((a, b) => {
           const dateAStr = a.Date.toString().padStart(8, "0");
           const dateBStr = b.Date.toString().padStart(8, "0");
 
@@ -43,11 +43,11 @@ const Transactions = () => {
           })
           .slice(0, 6);
 
-        setTransactions(sortedTransactions);
-        setTopPriciestTransactions(sortedByAmount);
+        setIncome(sortedIncome);
+        setHighestIncomePayments(sortedByAmount);
       })
       .catch((error) => {
-        console.error("Error fetching transactions:", error);
+        console.error("Error fetching income:", error);
       });
   };
 
@@ -145,10 +145,10 @@ const Transactions = () => {
         CurrUser: "test",
       })
       .then(() => {
-        fetchTransactions();
+        fetchIncome();
       })
       .catch((error) => {
-        console.error("Error creating transaction:", error);
+        console.error("Error creating income:", error);
       });
 
     setCategory("");
@@ -157,23 +157,23 @@ const Transactions = () => {
     setName("");
   }
 
-  function deleteTransaction(documentId) {
-    fetch(`http://localhost:3000/deleteUserTransaction/${documentId}`, {
+  function deleteIncome(documentId) {
+    fetch(`http://localhost:3000/deleteUserIncome/${documentId}`, {
       method: "DELETE",
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        fetchTransactions();
+        fetchIncome();
       })
       .catch((error) => {
-        console.error("Error deleting transaction:", error);
+        console.error("Error deleting income:", error);
       });
   }
 
   useEffect(() => {
-    fetchTransactions();
+    fetchIncome();
   }, []);
 
   return (
@@ -185,7 +185,7 @@ const Transactions = () => {
         <form className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col">
           <div className="w-full h-1/2 flex justify-between pl-8 border-b-2 border-b-[#9bc8db] border-dashed">
             <h1 className="self-center text-5xl font-bold text-white">
-              Log A Transaction
+              Log Your Income
             </h1>
             <div className="w-3/5 flex justify-between ">
               <div className="self-center bg-[#d0e5ee] rounded-xl w-3/5 h-10 flex mr-20 mt-2">
@@ -264,7 +264,7 @@ const Transactions = () => {
                 type="button"
                 onClick={() => handleCreateDoc(name, category, amount, date)}
               >
-                Log Transaction
+                Log Income
               </button>
             </div>
           </div>
@@ -273,32 +273,32 @@ const Transactions = () => {
         {/* Box 2 */}
         <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
           <h1 className="text-white font-bold text-3xl pl-8 mt-2 pb-2 border-b-2 border-b-[#224768]">
-            All Transactions
+            All Income
           </h1>
           <div
             className="overflow-y-auto rounded-b-xl"
             style={{ maxHeight: "calc(22rem + 2.5px * 7)" }}
           >
-            {transactions.map((transaction) => (
+            {income.map((income) => (
               <div
-                key={transaction.$id}
+                key={income.$id}
                 className="bg-[#9bc8db] flex flex-row w-full h-14"
               >
                 <p className="w-1/4 self-center text-[#224768] text-2xl font-semibold px-2 truncate">
-                  {capitalize(transaction.Name)}
+                  {capitalize(income.Name)}
                 </p>
                 <p className="w-1/4 self-center text-[#224768] text-xl font-medium pr-2 truncate">
-                  {capitalize(transaction.Category)}
+                  {capitalize(income.Category)}
                 </p>
                 <p className="w-1/4 self-center text-[#224768] text-xl font-medium">
-                  {formatDate(transaction.Date)}
+                  {formatDate(income.Date)}
                 </p>
                 <p className="w-1/6 self-center text-[#224768] text-xl font-medium pr-2 truncate">
-                  {formatAmount(transaction.Amount)}
+                  {formatAmount(income.Amount)}
                 </p>
                 <div className="w-1/12 h-full flex justify-center items-center">
                   <button
-                    onClick={() => deleteTransaction(transaction.$id)}
+                    onClick={() => deleteIncome(income.$id)}
                     className="bg-[#224768] hover:font-bold text-white text-lg rounded-xl w-fit h-fit px-2 py-1"
                   >
                     Delete
@@ -312,22 +312,22 @@ const Transactions = () => {
         {/* Box 3 */}
         <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
           <h1 className="text-white font-bold text-3xl pl-8 mt-2 pb-2 border-b-2 border-b-[#224768]">
-            Top Priciest Transactions
+            Highest Income Payments
           </h1>
           <div className="h-full rounded-b-xl grid grid-cols-2">
-            {topPriciestTransactions.map((transaction) => (
+            {highestIncomePayments.map((income) => (
               <div
-                key={transaction.$id}
+                key={income.$id}
                 className="bg-[#9bc8db] flex flex-row w-full h-[99%]"
               >
                 <p className="w-1/3 self-center text-[#224768] text-2xl font-semibold px-2 truncate">
-                  {capitalize(transaction.Name)}
+                  {capitalize(income.Name)}
                 </p>
                 <p className="w-1/3 self-center text-[#224768] text-xl font-medium">
-                  {formatDate(transaction.Date)}
+                  {formatDate(income.Date)}
                 </p>
                 <p className="w-1/3 self-center text-[#224768] text-xl font-medium pr-2 truncate">
-                  {formatAmount(transaction.Amount)}
+                  {formatAmount(income.Amount)}
                 </p>
               </div>
             ))}
@@ -340,4 +340,4 @@ const Transactions = () => {
   );
 };
 
-export default Transactions;
+export default Income;

@@ -5,7 +5,7 @@ const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
 
   const fetchTransactions = () => {
-    fetch("http://localhost:3000/listDocuments?CurrUser=test")
+    fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
       .then((response) => response.json())
       .then((data) => {
         const sortedTransactions = data.documents
