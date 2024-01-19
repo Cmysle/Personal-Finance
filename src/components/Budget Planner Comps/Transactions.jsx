@@ -7,6 +7,8 @@ const Transactions = ({
   topPriciestTransactions,
   transactions,
   fetchTransactions,
+  filterType,
+  filterTransactions,
 }) => {
   const [dateError, setDateError] = useState("");
   const [category, setCategory] = useState("");
@@ -138,6 +140,15 @@ const Transactions = ({
       .catch((error) => {
         console.error("Error deleting transaction:", error);
       });
+  }
+
+  let filteredPriciestTransactions = topPriciestTransactions.slice(0, 6);
+
+  if (filterType !== "ALL") {
+    filteredPriciestTransactions = filterTransactions(
+      topPriciestTransactions,
+      filterType
+    ).slice(0, 6);
   }
 
   useEffect(() => {
@@ -283,7 +294,7 @@ const Transactions = ({
             Top Priciest Expenses
           </h1>
           <div className="h-full rounded-b-xl grid grid-cols-2">
-            {topPriciestTransactions.map((transaction) => (
+            {filteredPriciestTransactions.map((transaction) => (
               <div
                 key={transaction.$id}
                 className="bg-[#9bc8db] flex flex-row w-full h-[99%]"

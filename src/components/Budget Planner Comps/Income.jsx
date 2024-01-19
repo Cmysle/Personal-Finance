@@ -3,7 +3,13 @@ import { useState, useEffect } from "react";
 import { useUser } from "../../utils/user";
 import { v4 as uuidv4 } from "uuid";
 
-const Income = ({ highestIncomePayments, income, fetchIncome }) => {
+const Income = ({
+  highestIncomePayments,
+  income,
+  fetchIncome,
+  filterType,
+  filterTransactions,
+}) => {
   const [dateError, setDateError] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -134,6 +140,15 @@ const Income = ({ highestIncomePayments, income, fetchIncome }) => {
       .catch((error) => {
         console.error("Error deleting income:", error);
       });
+  }
+
+  let filteredHighestIncome = highestIncomePayments.slice(0, 6);
+
+  if (filterType !== "ALL") {
+    filteredHighestIncome = filterTransactions(
+      highestIncomePayments,
+      filterType
+    ).slice(0, 6);
   }
 
   useEffect(() => {
@@ -279,7 +294,7 @@ const Income = ({ highestIncomePayments, income, fetchIncome }) => {
             Highest Income Payments
           </h1>
           <div className="h-full rounded-b-xl grid grid-cols-2">
-            {highestIncomePayments.map((income) => (
+            {filteredHighestIncome.map((income) => (
               <div
                 key={income.$id}
                 className="bg-[#9bc8db] flex flex-row w-full h-[99%]"

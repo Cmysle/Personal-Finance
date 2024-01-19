@@ -10,7 +10,6 @@ const BudgetPlanner = () => {
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [income, setIncome] = useState([]);
-
   const [filterType, setFilterType] = useState("ALL");
   const [menu, setMenu] = useState(false);
   const [page, setPage] = useState("");
@@ -89,11 +88,9 @@ const BudgetPlanner = () => {
           return dayB - dayA;
         });
 
-        const sortedByAmount = [...data.documents]
-          .sort((a, b) => {
-            return parseFloat(b.Amount) - parseFloat(a.Amount);
-          })
-          .slice(0, 6);
+        const sortedByAmount = [...data.documents].sort((a, b) => {
+          return parseFloat(b.Amount) - parseFloat(a.Amount);
+        });
 
         setIncome(sortedIncome);
         setHighestIncomePayments(sortedByAmount);
@@ -443,12 +440,16 @@ const BudgetPlanner = () => {
                 highestIncomePayments={highestIncomePayments}
                 income={income}
                 fetchIncome={fetchIncome}
+                filterType={filterType}
+                filterTransactions={filterTransactions}
               />
             ) : page === "expenses" ? (
               <Transactions
                 topPriciestTransactions={topPriciestTransactions}
                 transactions={transactions}
                 fetchTransactions={fetchTransactions}
+                filterType={filterType}
+                filterTransactions={filterTransactions}
               />
             ) : (
               <Dashboard
