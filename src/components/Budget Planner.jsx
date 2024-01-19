@@ -1,10 +1,16 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import Transactions from "./Budget Planner Comps/Transactions";
 import Dashboard from "./Budget Planner Comps/Dashboard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Income from "./Budget Planner Comps/Income";
 
 const BudgetPlanner = () => {
+  const [topPriciestTransactions, setTopPriciestTransactions] = useState([]);
+  const [highestIncomePayments, setHighestIncomePayments] = useState([]);
+  const [recentTransactions, setRecentTransactions] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [income, setIncome] = useState([]);
+
   const [filterType, setFilterType] = useState("ALL");
   const [menu, setMenu] = useState(false);
   const [page, setPage] = useState("");
@@ -60,6 +66,113 @@ const BudgetPlanner = () => {
         {`${(percent * 100).toFixed(0)}%`}
       </text>
     );
+  };
+
+  const fetchIncome = () => {
+    fetch("http://localhost:3000/listUserIncome?CurrUser=test")
+      .then((response) => response.json())
+      .then((data) => {
+        const sortedIncome = data.documents.sort((a, b) => {
+          const dateAStr = a.Date.toString().padStart(8, "0");
+          const dateBStr = b.Date.toString().padStart(8, "0");
+
+          const yearA = parseInt(dateAStr.substring(4, 8), 10);
+          const monthA = parseInt(dateAStr.substring(0, 2), 10);
+          const dayA = parseInt(dateAStr.substring(2, 4), 10);
+
+          const yearB = parseInt(dateBStr.substring(4, 8), 10);
+          const monthB = parseInt(dateBStr.substring(0, 2), 10);
+          const dayB = parseInt(dateBStr.substring(2, 4), 10);
+
+          if (yearA !== yearB) return yearB - yearA;
+          if (monthA !== monthB) return monthB - monthA;
+          return dayB - dayA;
+        });
+
+        const sortedByAmount = [...data.documents]
+          .sort((a, b) => {
+            return parseFloat(b.Amount) - parseFloat(a.Amount);
+          })
+          .slice(0, 6);
+
+        setIncome(sortedIncome);
+        setHighestIncomePayments(sortedByAmount);
+      })
+      .catch((error) => {
+        console.error("Error fetching income:", error);
+      });
+  };
+
+  const fetchTransactions = () => {
+    fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
+      .then((response) => response.json())
+      .then((data) => {
+        const sortedTransactions = data.documents.sort((a, b) => {
+          const dateAStr = a.Date.toString().padStart(8, "0");
+          const dateBStr = b.Date.toString().padStart(8, "0");
+
+          const yearA = parseInt(dateAStr.substring(4, 8), 10);
+          const monthA = parseInt(dateAStr.substring(0, 2), 10);
+          const dayA = parseInt(dateAStr.substring(2, 4), 10);
+
+          const yearB = parseInt(dateBStr.substring(4, 8), 10);
+          const monthB = parseInt(dateBStr.substring(0, 2), 10);
+          const dayB = parseInt(dateBStr.substring(2, 4), 10);
+
+          if (yearA !== yearB) return yearB - yearA;
+          if (monthA !== monthB) return monthB - monthA;
+          return dayB - dayA;
+        });
+
+        const sortedByAmount = [...data.documents]
+          .sort((a, b) => {
+            return parseFloat(b.Amount) - parseFloat(a.Amount);
+          })
+          .slice(0, 6);
+
+        setTransactions(sortedTransactions);
+        setTopPriciestTransactions(sortedByAmount);
+        setRecentTransactions(sortedTransactions.slice(0, 5));
+      })
+      .catch((error) => {
+        console.error("Error fetching transactions:", error);
+      });
+  };
+
+  const filterTransactions = (transactions, filterType) => {
+    let startDate;
+
+    switch (filterType) {
+      case "YTD":
+        startDate = new Date(new Date().getFullYear(), 0, 1);
+        break;
+
+      case "MTD":
+        startDate = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          1
+        );
+        break;
+
+      case "6MO":
+        startDate = new Date();
+        startDate.setMonth(startDate.getMonth() - 6);
+        break;
+
+      case "12MO":
+        startDate = new Date();
+        startDate.setMonth(startDate.getMonth() - 12);
+        break;
+    }
+    return transactions.filter((transaction) => {
+      const dateStr = transaction.Date.toString().padStart(8, "0");
+      const year = parseInt(dateStr.substring(4, 8), 10);
+      const month = parseInt(dateStr.substring(0, 2), 10);
+      const day = parseInt(dateStr.substring(2, 4), 10);
+      const transactionDate = new Date(year, month - 1, day);
+      return transactionDate >= startDate;
+    });
   };
 
   return (
@@ -326,13 +439,26 @@ const BudgetPlanner = () => {
           </div>
           <div className="w-full h-full">
             {page === "income" ? (
-              <Income />
+              <Income
+                highestIncomePayments={highestIncomePayments}
+                income={income}
+                fetchIncome={fetchIncome}
+              />
             ) : page === "expenses" ? (
-              <Transactions />
+              <Transactions
+                topPriciestTransactions={topPriciestTransactions}
+                transactions={transactions}
+                fetchTransactions={fetchTransactions}
+              />
             ) : (
               <Dashboard
                 filterType={filterType}
-                setFilterType={setFilterType}
+                recentTransactions={recentTransactions}
+                transactions={transactions}
+                income={income}
+                fetchTransactions={fetchTransactions}
+                fetchIncome={fetchIncome}
+                filterTransactions={filterTransactions}
               />
             )}
           </div>

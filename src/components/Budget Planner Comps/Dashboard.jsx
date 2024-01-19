@@ -1,71 +1,17 @@
-import { useState, useEffect } from "react";
-import { useUser } from "../../utils/user";
+/* eslint-disable react/prop-types */
+import { useEffect } from "react";
 import incomepng from "../../assets/income.png";
 import expensepng from "../../assets/expense.png";
 
-// eslint-disable-next-line react/prop-types
-const Dashboard = ({ filterType }) => {
-  const [recentTransactions, setRecentTransactions] = useState([]);
-  const [transactions, setTransactions] = useState([]);
-  const [income, setIncome] = useState([]);
-
-  const fetchTransactions = () => {
-    fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedTransactions = data.documents.sort((a, b) => {
-          const dateAStr = a.Date.toString().padStart(8, "0");
-          const dateBStr = b.Date.toString().padStart(8, "0");
-
-          const yearA = parseInt(dateAStr.substring(4, 8), 10);
-          const monthA = parseInt(dateAStr.substring(0, 2), 10);
-          const dayA = parseInt(dateAStr.substring(2, 4), 10);
-
-          const yearB = parseInt(dateBStr.substring(4, 8), 10);
-          const monthB = parseInt(dateBStr.substring(0, 2), 10);
-          const dayB = parseInt(dateBStr.substring(2, 4), 10);
-
-          if (yearA !== yearB) return yearB - yearA;
-          if (monthA !== monthB) return monthB - monthA;
-          return dayB - dayA;
-        });
-
-        setTransactions(sortedTransactions);
-        setRecentTransactions(sortedTransactions.slice(0, 5));
-      })
-      .catch((error) => {
-        console.error("Error fetching transactions:", error);
-      });
-  };
-
-  const fetchIncome = () => {
-    fetch("http://localhost:3000/listUserIncome?CurrUser=test")
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedIncome = data.documents.sort((a, b) => {
-          const dateAStr = a.Date.toString().padStart(8, "0");
-          const dateBStr = b.Date.toString().padStart(8, "0");
-
-          const yearA = parseInt(dateAStr.substring(4, 8), 10);
-          const monthA = parseInt(dateAStr.substring(0, 2), 10);
-          const dayA = parseInt(dateAStr.substring(2, 4), 10);
-
-          const yearB = parseInt(dateBStr.substring(4, 8), 10);
-          const monthB = parseInt(dateBStr.substring(0, 2), 10);
-          const dayB = parseInt(dateBStr.substring(2, 4), 10);
-
-          if (yearA !== yearB) return yearB - yearA;
-          if (monthA !== monthB) return monthB - monthA;
-          return dayB - dayA;
-        });
-
-        setIncome(sortedIncome);
-      })
-      .catch((error) => {
-        console.error("Error fetching transactions:", error);
-      });
-  };
-
+const Dashboard = ({
+  filterType,
+  recentTransactions,
+  transactions,
+  income,
+  fetchIncome,
+  fetchTransactions,
+  filterTransactions,
+}) => {
   const formatAmount = (amount) => {
     return `$${Number(amount).toLocaleString("en-US", {
       minimumFractionDigits: 2,
@@ -168,46 +114,10 @@ const Dashboard = ({ filterType }) => {
     return totalSpend / daysCount;
   };
 
-  const filterTransactions = (transactions, filterType) => {
-    let startDate;
-
-    switch (filterType) {
-      case "YTD":
-        startDate = new Date(new Date().getFullYear(), 0, 1);
-        break;
-
-      case "MTD":
-        startDate = new Date(
-          new Date().getFullYear(),
-          new Date().getMonth(),
-          1
-        );
-        break;
-
-      case "6MO":
-        startDate = new Date();
-        startDate.setMonth(startDate.getMonth() - 6);
-        break;
-
-      case "12MO":
-        startDate = new Date();
-        startDate.setMonth(startDate.getMonth() - 12);
-        break;
-    }
-    return transactions.filter((transaction) => {
-      const dateStr = transaction.Date.toString().padStart(8, "0");
-      const year = parseInt(dateStr.substring(4, 8), 10);
-      const month = parseInt(dateStr.substring(0, 2), 10);
-      const day = parseInt(dateStr.substring(2, 4), 10);
-      const transactionDate = new Date(year, month - 1, day);
-      return transactionDate >= startDate;
-    });
-  };
-
   useEffect(() => {
     fetchTransactions();
     fetchIncome();
-  }, []);
+  }, [fetchTransactions, fetchIncome]);
 
   return (
     <main className="bg-[#9bc8db] w-full h-full rounded-r-xl grid grid-cols-[32px_1fr_32px]">

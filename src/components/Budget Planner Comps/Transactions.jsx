@@ -1,10 +1,13 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useUser } from "../../utils/user";
 import { v4 as uuidv4 } from "uuid";
 
-const Transactions = () => {
-  const [topPriciestTransactions, setTopPriciestTransactions] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+const Transactions = ({
+  topPriciestTransactions,
+  transactions,
+  fetchTransactions,
+}) => {
   const [dateError, setDateError] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -15,41 +18,6 @@ const Transactions = () => {
   const DatabaseId = "65762a66918289095986";
   const CollectionId = "65762cfa3603f9971f6c";
   const DocumentId = uuidv4();
-
-  const fetchTransactions = () => {
-    fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedTransactions = data.documents.sort((a, b) => {
-          const dateAStr = a.Date.toString().padStart(8, "0");
-          const dateBStr = b.Date.toString().padStart(8, "0");
-
-          const yearA = parseInt(dateAStr.substring(4, 8), 10);
-          const monthA = parseInt(dateAStr.substring(0, 2), 10);
-          const dayA = parseInt(dateAStr.substring(2, 4), 10);
-
-          const yearB = parseInt(dateBStr.substring(4, 8), 10);
-          const monthB = parseInt(dateBStr.substring(0, 2), 10);
-          const dayB = parseInt(dateBStr.substring(2, 4), 10);
-
-          if (yearA !== yearB) return yearB - yearA;
-          if (monthA !== monthB) return monthB - monthA;
-          return dayB - dayA;
-        });
-
-        const sortedByAmount = [...data.documents]
-          .sort((a, b) => {
-            return parseFloat(b.Amount) - parseFloat(a.Amount);
-          })
-          .slice(0, 6);
-
-        setTransactions(sortedTransactions);
-        setTopPriciestTransactions(sortedByAmount);
-      })
-      .catch((error) => {
-        console.error("Error fetching transactions:", error);
-      });
-  };
 
   const formatAmount = (amount) => {
     return `$${Number(amount).toLocaleString("en-US", {
@@ -174,7 +142,7 @@ const Transactions = () => {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [fetchTransactions]);
 
   return (
     <main className="bg-[#9bc8db] w-full h-full rounded-r-xl grid grid-cols-[32px_1fr_32px]">

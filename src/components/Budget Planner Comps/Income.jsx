@@ -1,10 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useUser } from "../../utils/user";
 import { v4 as uuidv4 } from "uuid";
 
-const Income = () => {
-  const [highestIncomePayments, setHighestIncomePayments] = useState([]);
-  const [income, setIncome] = useState([]);
+const Income = ({ highestIncomePayments, income, fetchIncome }) => {
   const [dateError, setDateError] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -15,41 +14,6 @@ const Income = () => {
   const DatabaseId = "65762a66918289095986";
   const CollectionId = "65a947f6209906d314ec";
   const DocumentId = uuidv4();
-
-  const fetchIncome = () => {
-    fetch("http://localhost:3000/listUserIncome?CurrUser=test")
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedIncome = data.documents.sort((a, b) => {
-          const dateAStr = a.Date.toString().padStart(8, "0");
-          const dateBStr = b.Date.toString().padStart(8, "0");
-
-          const yearA = parseInt(dateAStr.substring(4, 8), 10);
-          const monthA = parseInt(dateAStr.substring(0, 2), 10);
-          const dayA = parseInt(dateAStr.substring(2, 4), 10);
-
-          const yearB = parseInt(dateBStr.substring(4, 8), 10);
-          const monthB = parseInt(dateBStr.substring(0, 2), 10);
-          const dayB = parseInt(dateBStr.substring(2, 4), 10);
-
-          if (yearA !== yearB) return yearB - yearA;
-          if (monthA !== monthB) return monthB - monthA;
-          return dayB - dayA;
-        });
-
-        const sortedByAmount = [...data.documents]
-          .sort((a, b) => {
-            return parseFloat(b.Amount) - parseFloat(a.Amount);
-          })
-          .slice(0, 6);
-
-        setIncome(sortedIncome);
-        setHighestIncomePayments(sortedByAmount);
-      })
-      .catch((error) => {
-        console.error("Error fetching income:", error);
-      });
-  };
 
   const formatAmount = (amount) => {
     return `$${Number(amount).toLocaleString("en-US", {
@@ -174,7 +138,7 @@ const Income = () => {
 
   useEffect(() => {
     fetchIncome();
-  }, []);
+  }, [fetchIncome]);
 
   return (
     <main className="bg-[#9bc8db] w-full h-full rounded-r-xl grid grid-cols-[32px_1fr_32px]">
