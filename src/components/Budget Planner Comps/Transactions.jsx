@@ -185,7 +185,7 @@ const Transactions = () => {
         <form className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col">
           <div className="w-full h-1/2 flex justify-between pl-8 border-b-2 border-b-[#9bc8db] border-dashed">
             <h1 className="self-center text-5xl font-bold text-white">
-              Log A Transaction
+              Log An Expense
             </h1>
             <div className="w-3/5 flex justify-between ">
               <div className="self-center bg-[#d0e5ee] rounded-xl w-3/5 h-10 flex mr-20 mt-2">
@@ -264,7 +264,7 @@ const Transactions = () => {
                 type="button"
                 onClick={() => handleCreateDoc(name, category, amount, date)}
               >
-                Log Transaction
+                Log Expense
               </button>
             </div>
           </div>
@@ -273,7 +273,7 @@ const Transactions = () => {
         {/* Box 2 */}
         <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
           <h1 className="text-white font-bold text-3xl pl-8 mt-2 pb-2 border-b-2 border-b-[#224768]">
-            All Transactions
+            All Expenses
           </h1>
           <div
             className="overflow-y-auto rounded-b-xl"
@@ -312,7 +312,7 @@ const Transactions = () => {
         {/* Box 3 */}
         <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
           <h1 className="text-white font-bold text-3xl pl-8 mt-2 pb-2 border-b-2 border-b-[#224768]">
-            Top Priciest Transactions
+            Top Priciest Expenses
           </h1>
           <div className="h-full rounded-b-xl grid grid-cols-2">
             {topPriciestTransactions.map((transaction) => (

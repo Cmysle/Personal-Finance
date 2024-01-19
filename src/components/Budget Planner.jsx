@@ -1,7 +1,8 @@
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import Transactions from "./Budget Planner Comps/Transactions";
 import Dashboard from "./Budget Planner Comps/Dashboard";
-import Income from "./Budget Planner Comps/Income";
 import { useState } from "react";
+import Income from "./Budget Planner Comps/Income";
 
 const BudgetPlanner = () => {
   const [filterType, setFilterType] = useState("ALL");
@@ -18,6 +19,48 @@ const BudgetPlanner = () => {
     setPage(ClickedPage);
     handleMenuClick();
   }
+
+  const incomedata = [
+    { name: "Group A", value: 400 },
+    { name: "Group B", value: 300 },
+    { name: "Group C", value: 300 },
+    { name: "Group D", value: 200 },
+  ];
+
+  const expensedata = [
+    { name: "Group A", value: 200 },
+    { name: "Group B", value: 600 },
+    { name: "Group C", value: 700 },
+    { name: "Group D", value: 120 },
+  ];
+
+  const COLORS = ["#84b3cf", "#5685a1", "#285773", "#002844"];
+
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
 
   return (
     <main className="bg-[#d0e5ee] w-screen h-screen min-h-[1080px]">
@@ -96,12 +139,118 @@ const BudgetPlanner = () => {
             </div>
           </div>
           <div className="w-full h-full"></div>
-          <div className="bg-[#9bc8db] text-center text-2xl w-full h-full rounded-xl">
-            Income By Category Pie Chart
+          <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
+            <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
+              Income By Category
+            </h1>
+            <div className="w-full h-full bg-[#9bc8db]">
+              <div className="w-full h-3/4">
+                <ResponsiveContainer className="w-full h-full">
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={incomedata}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {incomedata.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[#84b3cf] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Category 1
+                  </p>
+                </div>
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[#5685a1] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Category 2
+                  </p>
+                </div>
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[#285773] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Category 3
+                  </p>
+                </div>
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[#002844] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Other
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="w-full h-full"></div>
-          <div className="bg-[#9bc8db] text-center text-2xl w-full h-full rounded-xl">
-            Expenses By Category Pie Chart
+          <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
+            <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
+              Expenses By Category
+            </h1>
+            <div className="w-full h-full bg-[#9bc8db]">
+              <div className="w-full h-3/4">
+                <ResponsiveContainer className="w-full h-full">
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={expensedata}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={renderCustomizedLabel}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {expensedata.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[84b3cf] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Category 1
+                  </p>
+                </div>
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[#5685a1] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Category 2
+                  </p>
+                </div>
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[#285773] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Category 3
+                  </p>
+                </div>
+                <div className="w-full h-full flex flex-row align-center">
+                  <div className="bg-[#002844] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <p className="w-fit h-fit self-center text-center ml-2">
+                    Other
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="w-full h-full"></div>
@@ -160,14 +309,14 @@ const BudgetPlanner = () => {
                     </div>
                     <div
                       className={` ${
-                        page === "transactions"
+                        page === "expenses"
                           ? "bg-[#d0e5ee] text-[#224768]"
                           : "text-[#d0e5ee] hover:text-[#224768]"
                       } flex flex-row justify-start w-4/5 py-1 ml-2 mt-2 rounded-lg hover:cursor-pointer overflow-hidden`}
-                      onClick={() => handlePageClick("transactions")}
+                      onClick={() => handlePageClick("expenses")}
                     >
                       <div className="self-center pl-2 font-bold whitespace-nowrap">
-                        • Transactions
+                        • Expenses
                       </div>
                     </div>
                   </div>
@@ -178,7 +327,7 @@ const BudgetPlanner = () => {
           <div className="w-full h-full">
             {page === "income" ? (
               <Income />
-            ) : page === "transactions" ? (
+            ) : page === "expenses" ? (
               <Transactions />
             ) : (
               <Dashboard

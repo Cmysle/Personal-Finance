@@ -70,7 +70,7 @@ const AboutUs = () => {
                 encompassed Vite and React for interactivity, Tailwind CSS for
                 aesthetics, Photoshop for visual enhancements, Figma for design,
                 AI-powered tools for text and image generation, D3.js for
-                dynamic data visualization, and an unwavering commitment to
+                dynamic data visualization, and a strong desire to
                 staying at the forefront of emerging technologies, showcasing a
                 versatile blend of innovative tools and expertise.
               </p>
