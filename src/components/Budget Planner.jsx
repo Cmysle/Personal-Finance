@@ -1,16 +1,17 @@
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { useState, useEffect, useCallback } from "react";
 import Transactions from "./Budget Planner Comps/Transactions";
 import Dashboard from "./Budget Planner Comps/Dashboard";
-import { useState, useEffect } from "react";
 import Income from "./Budget Planner Comps/Income";
+import Chart from "./Budget Planner Comps/Chart";
 
 const BudgetPlanner = () => {
   const [topPriciestTransactions, setTopPriciestTransactions] = useState([]);
   const [highestIncomePayments, setHighestIncomePayments] = useState([]);
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [transactions, setTransactions] = useState([]);
-  const [income, setIncome] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
+  const [loading, setLoading] = useState(true);
+  const [income, setIncome] = useState([]);
   const [menu, setMenu] = useState(false);
   const [page, setPage] = useState("");
 
@@ -25,50 +26,8 @@ const BudgetPlanner = () => {
     handleMenuClick();
   }
 
-  const incomedata = [
-    { name: "Group A", value: 400 },
-    { name: "Group B", value: 300 },
-    { name: "Group C", value: 300 },
-    { name: "Group D", value: 200 },
-  ];
-
-  const expensedata = [
-    { name: "Group A", value: 200 },
-    { name: "Group B", value: 600 },
-    { name: "Group C", value: 700 },
-    { name: "Group D", value: 120 },
-  ];
-
-  const COLORS = ["#84b3cf", "#5685a1", "#285773", "#002844"];
-
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-  }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
-
-  const fetchIncome = () => {
-    fetch("http://localhost:3000/listUserIncome?CurrUser=test")
+  const fetchIncome = useCallback(() => {
+    return fetch("http://localhost:3000/listUserIncome?CurrUser=test")
       .then((response) => response.json())
       .then((data) => {
         const sortedIncome = data.documents.sort((a, b) => {
@@ -98,10 +57,10 @@ const BudgetPlanner = () => {
       .catch((error) => {
         console.error("Error fetching income:", error);
       });
-  };
+  }, []);
 
-  const fetchTransactions = () => {
-    fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
+  const fetchTransactions = useCallback(() => {
+    return fetch("http://localhost:3000/listUserTransactions?CurrUser=test")
       .then((response) => response.json())
       .then((data) => {
         const sortedTransactions = data.documents.sort((a, b) => {
@@ -134,7 +93,7 @@ const BudgetPlanner = () => {
       .catch((error) => {
         console.error("Error fetching transactions:", error);
       });
-  };
+  }, []);
 
   const filterTransactions = (transactions, filterType) => {
     let startDate;
@@ -172,24 +131,42 @@ const BudgetPlanner = () => {
     });
   };
 
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([fetchIncome(), fetchTransactions()]).then(() => {
+      setLoading(false);
+    });
+  }, [fetchIncome, fetchTransactions]);
+
+  if (loading)
+    return (
+      <div className="bg-[#d0e5ee] w-screen h-screen min-h-[1080px]">
+        <div className="w-screen h-32"></div>
+        <div className="width-screen-minus-128 height-screen-minus-192 mt-8 mx-16">
+          <p className="w-full text-4xl text-center">Loading...</p>
+        </div>
+      </div>
+    );
+
   return (
     <main className="bg-[#d0e5ee] w-screen h-screen min-h-[1080px]">
       <div className="w-screen h-32"></div>
       <section className="width-screen-minus-128 height-screen-minus-192 mt-8 mx-16 grid grid-cols-[1fr_32px_4.5fr]">
-        <div className="w-full h-full grid grid-rows-[1fr_32px_1fr_32px_1fr]">
+        <div className="w-full h-full grid grid-rows-[0.7fr_32px_1fr_32px_1fr]">
+          {/* Left Box 1 */}
           <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
             <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
               Filter By
             </h1>
             <div className="bg-[#9bc8db] w-full h-full flex flex-col">
-              <div className="w-full h-1/4 flex flex-row justify-around">
+              <div className="w-full h-fit pt-2 flex flex-row justify-around">
                 <div className="w-1/3 self-center flex justify-center">
                   <h3
                     className={`${
                       filterType === "ALL"
                         ? "bg-[#9bc8db] text-[#224768]"
                         : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
-                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-2xl font-semibold text-center self-center`}
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-xl font-semibold text-center self-center`}
                     onClick={() => setFilterType("ALL")}
                   >
                     All
@@ -201,7 +178,7 @@ const BudgetPlanner = () => {
                       filterType === "MTD"
                         ? "bg-[#9bc8db] text-[#224768]"
                         : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
-                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-2xl font-semibold text-center self-center`}
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-xl font-semibold text-center self-center`}
                     onClick={() => setFilterType("MTD")}
                   >
                     MTD
@@ -213,21 +190,21 @@ const BudgetPlanner = () => {
                       filterType === "YTD"
                         ? "bg-[#9bc8db] text-[#224768]"
                         : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
-                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-2xl font-semibold text-center self-center`}
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-20 text-xl font-semibold text-center self-center`}
                     onClick={() => setFilterType("YTD")}
                   >
                     YTD
                   </h3>
                 </div>
               </div>
-              <div className="w-full h-1/4 flex flex-row justify-around">
+              <div className="w-full h-fit pt-2 flex flex-row justify-around">
                 <div className="w-1/3 self-center flex justify-center">
                   <h3
                     className={`${
                       filterType === "6MO"
                         ? "bg-[#9bc8db] text-[#224768]"
                         : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
-                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-full text-2xl font-semibold text-center self-center`}
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-full text-xl font-semibold text-center self-center`}
                     onClick={() => setFilterType("6MO")}
                   >
                     Past 6 Months
@@ -239,43 +216,30 @@ const BudgetPlanner = () => {
                       filterType === "12MO"
                         ? "bg-[#9bc8db] text-[#224768]"
                         : "bg-[#224768] text-[#d0e5ee] hover:font-bold hover:text-white"
-                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-full text-2xl font-semibold text-center self-center`}
+                    } hover:cursor-pointer border-2 border-[#224768] rounded-lg w-full text-xl font-semibold text-center self-center`}
                     onClick={() => setFilterType("12MO")}
                   >
                     Past 12 Months
                   </h3>
                 </div>
               </div>
+              <div className="w-full h-fit pt-2 flex flex-row justify-around">
+                <p className="bg-[#224768] text-[#d0e5ee] text-md px-2 rounded-lg">Create Sample Transactions</p>
+              </div>
+              <div className="w-full h-fit pt-2 flex flex-row justify-around">
+                <p className="bg-[#224768] text-[#d0e5ee] text-md px-2 rounded-lg">Delete Sample Transactions</p>
+              </div>
             </div>
           </div>
           <div className="w-full h-full"></div>
+          {/* Left Box 2 */}
           <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
             <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
               Income By Category
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
               <div className="w-full h-3/4">
-                <ResponsiveContainer className="w-full h-full">
-                  <PieChart width={400} height={400}>
-                    <Pie
-                      data={incomedata}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {incomedata.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+                <Chart />
               </div>
               <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
                 <div className="w-full h-full flex flex-row align-center">
@@ -306,37 +270,18 @@ const BudgetPlanner = () => {
             </div>
           </div>
           <div className="w-full h-full"></div>
+          {/* Left Box 3 */}
           <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
             <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
               Expenses By Category
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
               <div className="w-full h-3/4">
-                <ResponsiveContainer className="w-full h-full">
-                  <PieChart width={400} height={400}>
-                    <Pie
-                      data={expensedata}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={renderCustomizedLabel}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {expensedata.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
+                <Chart />
               </div>
               <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
                 <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[84b3cf] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
+                  <div className="bg-[#84b3cf] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
                   <p className="w-fit h-fit self-center text-center ml-2">
                     Category 1
                   </p>
@@ -460,6 +405,7 @@ const BudgetPlanner = () => {
                 fetchTransactions={fetchTransactions}
                 fetchIncome={fetchIncome}
                 filterTransactions={filterTransactions}
+                loading={loading}
               />
             )}
           </div>
