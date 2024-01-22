@@ -8,12 +8,16 @@ const BudgetPlanner = () => {
   const [topPriciestTransactions, setTopPriciestTransactions] = useState([]);
   const [highestIncomePayments, setHighestIncomePayments] = useState([]);
   const [recentTransactions, setRecentTransactions] = useState([]);
+  const [incomeCategoryTotals, setIncomeCategoryTotals] = useState([]);
+  const [ExpenseCategoryTotals, setExpenseCategoryTotals] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [income, setIncome] = useState([]);
   const [menu, setMenu] = useState(false);
   const [page, setPage] = useState("");
+
+  const COLORS = ["#84b3cf", "#5685a1", "#285773", "#002844"];
 
   function handleMenuClick() {
     if (menu === false) {
@@ -87,12 +91,14 @@ const BudgetPlanner = () => {
           .slice(0, 6);
 
         setTransactions(sortedTransactions);
+        console.log(...transactions);
         setTopPriciestTransactions(sortedByAmount);
         setRecentTransactions(sortedTransactions.slice(0, 5));
       })
       .catch((error) => {
         console.error("Error fetching transactions:", error);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filterTransactions = (transactions, filterType) => {
@@ -130,6 +136,69 @@ const BudgetPlanner = () => {
       return transactionDate >= startDate;
     });
   };
+
+  const analyzeExpenses = useCallback(() => {
+    let filteredTransactions = transactions;
+    if (filterType !== "ALL") {
+      filteredTransactions = filterTransactions(transactions, filterType);
+    }
+    const categoryMap = filteredTransactions.reduce((acc, transaction) => {
+      const { Category, Amount } = transaction;
+      acc[Category] = (acc[Category] || 0) + Amount;
+      return acc;
+    }, {});
+
+    let categoriesSorted = Object.entries(categoryMap)
+      .map(([name, total]) => ({
+        name: name,
+        value: total,
+      }))
+      .sort((a, b) => b.value - a.value);
+
+    if (categoriesSorted.length > 3) {
+      const otherTotal = categoriesSorted
+        .slice(3)
+        .reduce((sum, category) => sum + category.value, 0);
+      categoriesSorted = categoriesSorted.slice(0, 3);
+      categoriesSorted.push({ name: "Other", value: otherTotal });
+    }
+
+    setExpenseCategoryTotals(categoriesSorted);
+  }, [filterType, transactions]);
+
+  const analyzeIncome = useCallback(() => {
+    let filteredTransactions = income;
+    if (filterType !== "ALL") {
+      filteredTransactions = filterTransactions(income, filterType);
+    }
+    const categoryMap = filteredTransactions.reduce((acc, transaction) => {
+      const { Category, Amount } = transaction;
+      acc[Category] = (acc[Category] || 0) + Amount;
+      return acc;
+    }, {});
+
+    let categoriesSorted = Object.entries(categoryMap)
+      .map(([name, total]) => ({
+        name: name,
+        value: total,
+      }))
+      .sort((a, b) => b.value - a.value);
+
+    if (categoriesSorted.length > 3) {
+      const otherTotal = categoriesSorted
+        .slice(3)
+        .reduce((sum, category) => sum + category.value, 0);
+      categoriesSorted = categoriesSorted.slice(0, 3);
+      categoriesSorted.push({ name: "Other", value: otherTotal });
+    }
+
+    setIncomeCategoryTotals(categoriesSorted);
+  }, [filterType, income]);
+
+  useEffect(() => {
+    analyzeIncome();
+    analyzeExpenses();
+  }, [analyzeIncome, analyzeExpenses]);
 
   useEffect(() => {
     setLoading(true);
@@ -224,10 +293,14 @@ const BudgetPlanner = () => {
                 </div>
               </div>
               <div className="w-full h-fit pt-2 flex flex-row justify-around">
-                <p className="bg-[#224768] text-[#d0e5ee] text-md px-2 rounded-lg">Create Sample Transactions</p>
+                <p className="bg-[#224768] text-[#d0e5ee] text-md px-2 rounded-lg">
+                  Create Sample Transactions
+                </p>
               </div>
               <div className="w-full h-fit pt-2 flex flex-row justify-around">
-                <p className="bg-[#224768] text-[#d0e5ee] text-md px-2 rounded-lg">Delete Sample Transactions</p>
+                <p className="bg-[#224768] text-[#d0e5ee] text-md px-2 rounded-lg">
+                  Delete Sample Transactions
+                </p>
               </div>
             </div>
           </div>
@@ -239,33 +312,25 @@ const BudgetPlanner = () => {
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
               <div className="w-full h-3/4">
-                <Chart />
+                <Chart data={incomeCategoryTotals} />
               </div>
               <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#84b3cf] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Category 1
-                  </p>
-                </div>
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#5685a1] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Category 2
-                  </p>
-                </div>
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#285773] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Category 3
-                  </p>
-                </div>
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#002844] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Other
-                  </p>
-                </div>
+                {incomeCategoryTotals.map((category, index) => (
+                  <div
+                    key={category.name}
+                    className="w-full h-full flex flex-row items-center"
+                  >
+                    <div
+                      className={`self-center w-4 h-4 ml-6 border-[1px] border-black`}
+                      style={{
+                        backgroundColor: COLORS[index % COLORS.length],
+                      }}
+                    ></div>
+                    <p className="w-fit h-fit self-center text-center ml-2 truncate">
+                      {category.name}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -277,33 +342,25 @@ const BudgetPlanner = () => {
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
               <div className="w-full h-3/4">
-                <Chart />
+                <Chart data={ExpenseCategoryTotals} />
               </div>
               <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#84b3cf] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Category 1
-                  </p>
-                </div>
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#5685a1] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Category 2
-                  </p>
-                </div>
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#285773] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Category 3
-                  </p>
-                </div>
-                <div className="w-full h-full flex flex-row align-center">
-                  <div className="bg-[#002844] self-center w-4 h-4 ml-6 border-[1px] border-black"></div>
-                  <p className="w-fit h-fit self-center text-center ml-2">
-                    Other
-                  </p>
-                </div>
+                {ExpenseCategoryTotals.map((category, index) => (
+                  <div
+                    key={category.name}
+                    className="w-full h-full flex flex-row items-center"
+                  >
+                    <div
+                      className={`self-center w-4 h-4 ml-6 border-[1px] border-black`}
+                      style={{
+                        backgroundColor: COLORS[index % COLORS.length],
+                      }}
+                    ></div>
+                    <p className="w-fit h-fit self-center text-center ml-2 truncate">
+                      {category.name}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
