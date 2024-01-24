@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useEffect, useState, useCallback } from "react";
 import incomepng from "../../assets/income.png";
 import expensepng from "../../assets/expense.png";
 import BChart from "./BarChart";
@@ -10,6 +11,8 @@ const Dashboard = ({
   income,
   filterTransactions,
 }) => {
+  const [incomeVsExpense, setIncomeVsExpense] = useState([]);
+
   const formatAmount = (amount) => {
     return `$${Number(amount).toLocaleString("en-US", {
       minimumFractionDigits: 2,
@@ -112,6 +115,56 @@ const Dashboard = ({
     return totalSpend / daysCount;
   };
 
+  const analyzeIncomeVsExpense = useCallback(() => {
+    let setIncome = (
+      filterType == "ALL" ? income : filterTransactions(income, filterType)
+    ).map((transaction) => ({
+      name: transaction.Name,
+      value: transaction.Amount,
+      date: transaction.Date,
+      type: "Income",
+    }));
+
+    let setExpense = (
+      filterType == "ALL"
+        ? transactions
+        : filterTransactions(transactions, filterType)
+    ).map((transaction) => ({
+      name: transaction.Name,
+      value: transaction.Amount,
+      date: transaction.Date,
+      type: "Expense",
+    }));
+
+    let filteredTransactions = setIncome.concat(setExpense);
+
+    let transactionsSorted = filteredTransactions.sort((a, b) => {
+      const dateAStr = a.date.toString().padStart(8, "0");
+      const dateBStr = b.date.toString().padStart(8, "0");
+
+      const yearA = parseInt(dateAStr.substring(4, 8), 10);
+      const monthA = parseInt(dateAStr.substring(0, 2), 10);
+      const dayA = parseInt(dateAStr.substring(2, 4), 10);
+
+      const yearB = parseInt(dateBStr.substring(4, 8), 10);
+      const monthB = parseInt(dateBStr.substring(0, 2), 10);
+      const dayB = parseInt(dateBStr.substring(2, 4), 10);
+
+      if (yearA !== yearB) return yearA - yearB;
+      if (monthA !== monthB) return monthA - monthB;
+      return dayA - dayB;
+    });
+
+    setIncomeVsExpense(transactionsSorted);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterType, income]);
+
+  console.log(...incomeVsExpense);
+
+  useEffect(() => {
+    analyzeIncomeVsExpense();
+  }, [analyzeIncomeVsExpense]);
+
   return (
     <main className="bg-[#9bc8db] w-full h-full rounded-r-xl grid grid-cols-[32px_1fr_32px]">
       <div className="w-full h-full"></div>
@@ -188,7 +241,7 @@ const Dashboard = ({
             Income vs Expenses
           </h1>
           <div className="bg-[#9bc8db] w-full h-full pt-2">
-            <BChart/>
+            <BChart />
           </div>
         </div>
         <div className="w-full h-full"></div>

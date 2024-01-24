@@ -1,36 +1,25 @@
 /* eslint-disable react/prop-types */
-import React, { useCallback, useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-
-// const data = [
-//   { name: "Group A", value: 200 },
-//   { name: "Group B", value: 600 },
-//   { name: "Group C", value: 700 },
-//   { name: "Group D", value: 120 },
-// ];
 
 const COLORS = ["#84b3cf", "#5685a1", "#285773", "#002844"];
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-}) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * .5;
+const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, percent }) => {
+  let radius = outerRadius * 0.7;
+  if (percent * 100 < 6) radius = outerRadius * 1.17;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const labelFont = percent * 100 < 6 ? "#002844" : "white";
+  const labelFontWeight = percent * 100 < 6 ? "700" : "600";
 
   return (
     <text
       x={x}
       y={y}
-      fill="white"
-      textAnchor={x > cx ? "start" : "end"}
+      fill={labelFont}
+      textAnchor={"middle"}
       dominantBaseline="central"
+      fontWeight={labelFontWeight}
     >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
@@ -44,10 +33,10 @@ export default function PChart({ data }) {
         <Pie
           data={data}
           cx="50%"
-          cy="50%"
+          cy="52%"
           isAnimationActive={true}
           animationBegin={0}
-          animationDuration={400}
+          animationDuration={800}
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={80}

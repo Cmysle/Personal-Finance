@@ -311,10 +311,10 @@ const BudgetPlanner = () => {
               Income By Category
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
-              <div className="w-full h-3/4">
+              <div className="w-full h-4/5">
                 <PChart data={incomeCategoryTotals} />
               </div>
-              <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
+              <div className="bg-[#9bc8db] w-full h-1/5 grid grid-cols-2">
                 {incomeCategoryTotals.map((category, index) => (
                   <div
                     key={category.name}
@@ -341,10 +341,10 @@ const BudgetPlanner = () => {
               Expenses By Category
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
-              <div className="w-full h-3/4">
+              <div className="w-full h-4/5">
                 <PChart data={ExpenseCategoryTotals} />
               </div>
-              <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
+              <div className="bg-[#9bc8db] w-full h-1/5 grid grid-cols-2">
                 {ExpenseCategoryTotals.map((category, index) => (
                   <div
                     key={category.name}
