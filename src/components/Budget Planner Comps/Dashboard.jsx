@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import incomepng from "../../assets/income.png";
 import expensepng from "../../assets/expense.png";
+import BChart from "./BarChart";
 
 const Dashboard = ({
   filterType,
@@ -8,7 +9,6 @@ const Dashboard = ({
   transactions,
   income,
   filterTransactions,
-  loading,
 }) => {
   const formatAmount = (amount) => {
     return `$${Number(amount).toLocaleString("en-US", {
@@ -185,9 +185,11 @@ const Dashboard = ({
         {/* Box 2 */}
         <div className="bg-[#5685a1] w-full h-full rounded-xl flex flex-col border-2 border-[#5685a1] overflow-hidden">
           <h1 className="text-white font-bold text-xl pl-4 border-b-2 border-b-[#224768]">
-            Income X Expenses
+            Income vs Expenses
           </h1>
-          <div className="w-full h-full"></div>
+          <div className="bg-[#9bc8db] w-full h-full pt-2">
+            <BChart/>
+          </div>
         </div>
         <div className="w-full h-full"></div>
         {/* Box 3 */}

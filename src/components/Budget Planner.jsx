@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import Transactions from "./Budget Planner Comps/Transactions";
 import Dashboard from "./Budget Planner Comps/Dashboard";
 import Income from "./Budget Planner Comps/Income";
-import Chart from "./Budget Planner Comps/Chart";
+import PChart from "./Budget Planner Comps/PieChart";
 
 const BudgetPlanner = () => {
   const [topPriciestTransactions, setTopPriciestTransactions] = useState([]);
@@ -312,7 +312,7 @@ const BudgetPlanner = () => {
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
               <div className="w-full h-3/4">
-                <Chart data={incomeCategoryTotals} />
+                <PChart data={incomeCategoryTotals} />
               </div>
               <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
                 {incomeCategoryTotals.map((category, index) => (
@@ -342,7 +342,7 @@ const BudgetPlanner = () => {
             </h1>
             <div className="w-full h-full bg-[#9bc8db]">
               <div className="w-full h-3/4">
-                <Chart data={ExpenseCategoryTotals} />
+                <PChart data={ExpenseCategoryTotals} />
               </div>
               <div className="bg-[#9bc8db] w-full h-1/4 grid grid-cols-2">
                 {ExpenseCategoryTotals.map((category, index) => (
@@ -462,7 +462,6 @@ const BudgetPlanner = () => {
                 fetchTransactions={fetchTransactions}
                 fetchIncome={fetchIncome}
                 filterTransactions={filterTransactions}
-                loading={loading}
               />
             )}
           </div>

@@ -37,7 +37,7 @@ const renderCustomizedLabel = ({
   );
 };
 
-export default function Chart({ data }) {
+export default function PChart({ data }) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart width={400} height={400}>
@@ -47,7 +47,7 @@ export default function Chart({ data }) {
           cy="50%"
           isAnimationActive={true}
           animationBegin={0}
-          animationDuration={500}
+          animationDuration={400}
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={80}
