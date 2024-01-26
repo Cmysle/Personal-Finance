@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import incomepng from "../../assets/income.png";
 import expensepng from "../../assets/expense.png";
+import dailyspendpng from "../../assets/dailyspend.png";
 import BChart from "./BarChart";
 
 const Dashboard = ({
@@ -115,49 +116,114 @@ const Dashboard = ({
     return totalSpend / daysCount;
   };
 
-  const analyzeIncomeVsExpense = useCallback(() => {
-    let setIncome = (
-      filterType == "ALL" ? income : filterTransactions(income, filterType)
-    ).map((transaction) => ({
-      name: transaction.Name,
-      value: transaction.Amount,
-      date: transaction.Date,
-      type: "Income",
-    }));
+  const createDailyStructure = (startDate, endDate) => {
+    let date = new Date(startDate.getTime());
+    let dates = [];
 
-    let setExpense = (
-      filterType == "ALL"
-        ? transactions
-        : filterTransactions(transactions, filterType)
-    ).map((transaction) => ({
-      name: transaction.Name,
-      value: transaction.Amount,
-      date: transaction.Date,
-      type: "Expense",
-    }));
+    while (date <= endDate) {
+      let key = `${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}`;
+      dates.push({ name: key, Income: 0, Expense: 0 });
+      date.setDate(date.getDate() + 1);
+    }
 
-    let filteredTransactions = setIncome.concat(setExpense);
+    return dates;
+  };
 
-    let transactionsSorted = filteredTransactions.sort((a, b) => {
-      const dateAStr = a.date.toString().padStart(8, "0");
-      const dateBStr = b.date.toString().padStart(8, "0");
+  const mergeWithTransactions = (dailyStructure, transactions) => {
+    const transactionsByDate = transactions.reduce((acc, transaction) => {
+      const dateStr = transaction.Date.toString().padStart(8, "0");
+      const year = parseInt(dateStr.substring(4), 10);
+      const month = parseInt(dateStr.substring(0, 2), 10);
+      const day = parseInt(dateStr.substring(2, 4), 10);
+      const key = `${year}-${month}-${day}`;
 
-      const yearA = parseInt(dateAStr.substring(4, 8), 10);
-      const monthA = parseInt(dateAStr.substring(0, 2), 10);
-      const dayA = parseInt(dateAStr.substring(2, 4), 10);
+      if (!acc[key]) {
+        acc[key] = { Income: 0, Expense: 0 };
+      }
 
-      const yearB = parseInt(dateBStr.substring(4, 8), 10);
-      const monthB = parseInt(dateBStr.substring(0, 2), 10);
-      const dayB = parseInt(dateBStr.substring(2, 4), 10);
+      const amount = parseFloat(transaction.Amount);
+      acc[key][transaction.type] += amount;
 
-      if (yearA !== yearB) return yearA - yearB;
-      if (monthA !== monthB) return monthA - monthB;
-      return dayA - dayB;
+      return acc;
+    }, {});
+
+    return dailyStructure.map((day) => {
+      if (transactionsByDate[day.period]) {
+        day.incomeTotal = transactionsByDate[day.period].Income;
+        day.expenseTotal = transactionsByDate[day.period].Expense;
+      }
+      return day;
     });
+  };
 
-    setIncomeVsExpense(transactionsSorted);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterType, income]);
+  const createMonthlyStructure = (startDate, endDate) => {
+    let date = new Date(startDate.getTime());
+    let months = [];
+
+    while (date <= endDate) {
+      let key = `${date.getFullYear()}-${date.getMonth() + 1}`;
+      if (!months.some((m) => m.period === key)) {
+        months.push({ name: key, Income: 0, Expense: 0 });
+      }
+      date.setMonth(date.getMonth() + 1);
+    }
+
+    return months;
+  };
+
+  const analyzeIncomeVsExpense = useCallback(() => {
+    const now = new Date();
+    let startDate, endDate;
+
+    switch (filterType) {
+      case "YTD":
+        startDate = new Date(now.getFullYear(), 0, 1);
+        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        break;
+      case "6MO":
+        startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+        endDate = now;
+        break;
+      case "12MO":
+        startDate = new Date(now.getFullYear() - 1, now.getMonth(), 1);
+        endDate = now;
+        break;
+      case "ALL":
+        startDate = new Date(now.getFullYear() - 3, now.getMonth(), 1);
+        endDate = now;
+        break;
+      default:
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        endDate = now;
+    }
+
+    let monthlyStructure = createMonthlyStructure(startDate, endDate);
+    let mergedTransactions = [
+      ...income.map((item) => ({ ...item, type: "Income" })),
+      ...transactions.map((item) => ({ ...item, type: "Expense" })),
+    ];
+
+    let filledMonthlyData = mergeWithTransactions(
+      monthlyStructure,
+      mergedTransactions
+    );
+
+    // For MTD, we use daily data
+    if (filterType === "MTD") {
+      const dailyStructure = createDailyStructure(
+        new Date(now.getFullYear(), now.getMonth(), 1),
+        now
+      );
+      filledMonthlyData = mergeWithTransactions(
+        dailyStructure,
+        mergedTransactions
+      );
+    }
+
+    setIncomeVsExpense(filledMonthlyData);
+  }, [filterType, income, transactions]);
 
   console.log(...incomeVsExpense);
 
@@ -227,8 +293,8 @@ const Dashboard = ({
               <div className="w-1/4 h-full flex justify-center">
                 <img
                   className="h-14 self-center rounded-xl"
-                  src={incomepng}
-                  alt="Income Png"
+                  src={dailyspendpng}
+                  alt="Daily Spend Png"
                 />
               </div>
             </div>
@@ -241,7 +307,7 @@ const Dashboard = ({
             Income vs Expenses
           </h1>
           <div className="bg-[#9bc8db] w-full h-full pt-2">
-            <BChart />
+            <BChart data={incomeVsExpense} />
           </div>
         </div>
         <div className="w-full h-full"></div>

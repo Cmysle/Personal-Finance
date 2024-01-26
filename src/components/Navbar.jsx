@@ -109,7 +109,7 @@ const Navbar = () => {
                 : "bg-[#9bc8db] text-white"
             } mt-auto w-1/6 border-r-2 border-r-[#5685a1]`}
           >
-            <h3 className="text-lg pt-1 h-10 font-bold">Budget Planner</h3>
+            <h3 className="text-lg pt-1 h-10 font-bold">Money Manager</h3>
           </Link>
           <Link
             to="/saving-goals"
