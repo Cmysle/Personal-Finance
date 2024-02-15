@@ -9,6 +9,7 @@ import AboutUs from "./About Us";
 import Register from "./Register";
 import Login from "./Login";
 import BudgetPlanner from "./Budget Planner";
+import UnderConstruction from "./UnderConstruction";
 
 export {
   Home,
@@ -21,5 +22,6 @@ export {
   AboutUs,
   Register,
   Login,
-  BudgetPlanner
+  BudgetPlanner,
+  UnderConstruction
 };

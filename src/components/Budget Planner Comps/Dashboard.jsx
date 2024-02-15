@@ -150,9 +150,9 @@ const Dashboard = ({
     }, {});
 
     return dailyStructure.map((day) => {
-      if (transactionsByDate[day.period]) {
-        day.incomeTotal = transactionsByDate[day.period].Income;
-        day.expenseTotal = transactionsByDate[day.period].Expense;
+      if (transactionsByDate[day.name]) {
+        day.Income = transactionsByDate[day.name].Income;
+        day.Expense = transactionsByDate[day.name].Expense;
       }
       return day;
     });
@@ -225,7 +225,6 @@ const Dashboard = ({
     setIncomeVsExpense(filledMonthlyData);
   }, [filterType, income, transactions]);
 
-  console.log(...incomeVsExpense);
 
   useEffect(() => {
     analyzeIncomeVsExpense();
@@ -307,7 +306,7 @@ const Dashboard = ({
             Income vs Expenses
           </h1>
           <div className="bg-[#9bc8db] w-full h-full pt-2">
-            <BChart data={incomeVsExpense} />
+            <BChart incomeVsExpense={incomeVsExpense} />
           </div>
         </div>
         <div className="w-full h-full"></div>

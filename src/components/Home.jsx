@@ -79,11 +79,11 @@ const Home = () => {
               <h1 className="absolute text-5xl font-bold mt-4 ml-4 text-white">
                 Saving Goals
               </h1>
-              <div className="bg-black w-5/6 h-5/6 m-auto flex justify-center">
+              {/* <div className="bg-black w-5/6 h-5/6 m-auto flex justify-center">
                 <p className="self-center text-center text-white font-bold text-2xl">
                   Placeholder for future D3.js bar chart
                 </p>
-              </div>
+              </div> */}
             </div>
             {/* White Box */}
             <div className="bg-white w-full h-full rounded-b-3xl grid grid-cols-[1fr_1fr]">
@@ -95,12 +95,12 @@ const Home = () => {
                   effectively.
                 </p>
               </div>
-              <div className="bg-black w-5/6 h-5/6 m-auto flex justify-center">
+              {/* <div className="bg-black w-5/6 h-5/6 m-auto flex justify-center">
                 <p className="self-center text-center text-white font-bold text-lg m-4">
                   Placeholder for future most significant expenses of the
                   current month chart
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -111,11 +111,11 @@ const Home = () => {
             {/* Left Side */}
             <div className="w-full h-full">
               <div className="w-full h-4/5 flex justify-center">
-                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                {/* <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
                   <p className="self-center text-center text-white font-bold text-lg m-4">
                     Placeholder for future monthly budget chart
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="w-full h-1/5 flex justify-center">
                 <p className="self-center text-center text-white font-bold text-lg">
@@ -137,11 +137,11 @@ const Home = () => {
           <div className="bg-[#5685a1] w-full h-full rounded-3xl border-2 border-[#5685a1]">
             <div className="w-full h-full">
               <div className="w-full h-4/5 flex justify-center">
-                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                {/* <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
                   <p className="self-center text-center text-white font-bold text-lg m-4">
                     Placeholder for future Important Notifications chart
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="w-full h-1/5 flex justify-center">
                 <p className="self-center text-center text-white font-bold text-lg">
@@ -156,11 +156,11 @@ const Home = () => {
             {/* Left Side */}
             <div className="w-full h-full">
               <div className="w-full h-4/5 flex justify-center">
-                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                {/* <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
                   <p className="self-center text-center text-white font-bold text-lg m-4">
                     Placeholder for future total value chart
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="w-full h-1/5 flex justify-center">
                 <p className="self-center text-center text-white font-bold text-lg">
@@ -186,11 +186,11 @@ const Home = () => {
             {/* Right Side */}
             <div className="w-full h-full">
               <div className="w-full h-4/5 flex justify-center">
-                <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
+                {/* <div className="bg-black w-5/6 h-5/6 self-center flex justify-center">
                   <p className="self-center text-center text-white font-bold text-lg m-4">
                     Placeholder for future monthly budget chart
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="w-full h-1/5 flex justify-center">
                 <p className="self-center text-center text-white font-bold text-lg">

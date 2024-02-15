@@ -1,7 +1,7 @@
 import self_zoomed from "../assets/self_zoomed.png";
 import react_vite from "../assets/tech/react_vite.png";
 import ai from "../assets/tech/ai.png";
-import d3js from "../assets/tech/d3js.png";
+import recharts from "../assets/tech/recharts.png";
 import figma from "../assets/tech/figma.png";
 import photoshop from "../assets/tech/photoshop.png";
 import tailwindcss from "../assets/tech/tailwindcss.png";
@@ -69,7 +69,7 @@ const AboutUs = () => {
                 My toolkit for crafting this captivating digital landscape
                 encompassed Vite and React for interactivity, Tailwind CSS for
                 aesthetics, Photoshop for visual enhancements, Figma for design,
-                AI-powered tools for text and image generation, D3.js for
+                AI-powered tools for text and image generation, Recharts for
                 dynamic data visualization, and a strong desire to
                 staying at the forefront of emerging technologies, showcasing a
                 versatile blend of innovative tools and expertise.
@@ -133,9 +133,9 @@ const AboutUs = () => {
             </h2>
           </div>
           <div className="w-full h-full flex flex-col justify-center">
-            <img src={d3js} alt="d3js" className="self-center h-20 mt-2" />
+            <img src={recharts} alt="recharts" className="self-center h-20 mt-2" />
             <h2 className="self-center font-bold text-[#224768] mt-3 text-lg">
-              D3.js
+              Recharts
             </h2>
           </div>
           <div className="w-full h-full flex flex-col justify-center">
